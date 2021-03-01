@@ -5,9 +5,9 @@ import { AppComponent } from './app.component';
 
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/maximale', pathMatch: 'full' 	},
+	/*{ path: '', redirectTo: '/maximale', pathMatch: 'full' 	},
 	{ path: "maximale/test", component: MaximaleComponent  },
-	{ path: '**', component: MaximaleComponent }
+	{ path: '**', component: MaximaleComponent }*/
 ];
 
 @NgModule({
