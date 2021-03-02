@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MaximaleComponent } from './component/maximale/maximale.component';
+import { MinimaleComponent } from './minimale/minimale.component';
 import { AppComponent } from './app.component';
 
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/maximale', pathMatch: 'full' 	},
-	{ path: "maximale/test", component: MaximaleComponent  },
-	{ path: '**', component: MaximaleComponent }
+	{ path: '', redirectTo: '/minimale', pathMatch: 'full' },
+	{ path: "minimale", component: MinimaleComponent },
+	{ path: "maximale", component: MaximaleComponent },
+
+	//{ path: '**', component: MaximaleComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule]
 })
 export class AppRoutingModule { }
