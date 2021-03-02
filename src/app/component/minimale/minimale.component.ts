@@ -5,7 +5,7 @@ import * as go from 'gojs';
 const $ = go.GraphObject.make;  // for conciseness in defining templates
 
 @Component({
-  selector: 'app-minimale',
+  selector: 'app-minimale', 
   templateUrl: './minimale.component.html',
   styleUrls: ['./minimale.component.scss']
 })

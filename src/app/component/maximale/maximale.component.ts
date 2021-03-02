@@ -27,7 +27,7 @@ export class MaximaleComponent implements OnInit {
       { "id": 6, "loc": "800 96", "text": "Checkout" },*/
       { "id": -2, "loc": "757 229", "category": "End" }
     ],
-    "linkDataArray": [
+    "linkDataArray": [ 
       { "from": -1, "to": 0, "text": "Visit online store" },
       { "from": 0, "to": 1, "progress": "true", "text": "Browse" },
       { "from": 0, "to": 2, "progress": "true", "text": "Use search bar" },
@@ -41,8 +41,8 @@ export class MaximaleComponent implements OnInit {
       { "from": 4, "to": 5, "text": "Update needed", "curviness": -50 },
       { "from": 5, "to": 4, "text": "Update made" },
       { "from": 4, "to": 6, "progress": "true", "text": "Proceed" },
-      { "from": 6, "to": 5, "text": "Update needed" },*/
-      { "from": 6, "to": -2, "progress": "true", "text": "Purchase made" }
+      { "from": 6, "to": 5, "text": "Update needed" },
+      { "from": 6, "to": -2, "progress": "true", "text": "Purchase made" }*/
     ]
   }
 
@@ -55,6 +55,8 @@ export class MaximaleComponent implements OnInit {
   @Output()
   nodeClicked = new EventEmitter();
 
+
+  data_in_diagrame: any = [];
 
   constructor() {
   }
@@ -201,7 +203,7 @@ export class MaximaleComponent implements OnInit {
       var fromNode = adornment.adornedPart;
       var fromData = fromNode.data;
       // create a new "State" data object, positioned off to the right of the adorned Node
-      var toData = { text: "new", loc: "32" };
+      var toData = { text: "Nom tache ", loc: "32" };
       var p = fromNode.location.copy();
       p.x += 200;
       toData.loc = go.Point.stringify(p);  // the "loc" property is a string, not a Point object
@@ -213,7 +215,7 @@ export class MaximaleComponent implements OnInit {
       var linkdata = {
         from: model.getKeyForNodeData(fromData),  // or just: fromData.id
         to: model.getKeyForNodeData(toData),
-        text: "transition"
+        text: "distance"
       };
       // and add the link data to the model
       model.addLinkData(linkdata);
@@ -260,7 +262,7 @@ export class MaximaleComponent implements OnInit {
                 { 0: "rgb(245, 245, 245)", 0.7: "rgb(245, 245, 245)", 1: "rgba(245, 245, 245, 0)" }),
               stroke: null
             }),
-          $(go.TextBlock, "transition",  // the label text
+          $(go.TextBlock, "distance",  // the label text
             {
               textAlign: "center",
               font: "9pt helvetica, arial, sans-serif",
@@ -278,11 +280,16 @@ export class MaximaleComponent implements OnInit {
 
   // Show the diagram's model in JSON format
   save() {
-    //  document.getElementById("mySavedModel").value = this.diagram.model.toJson();
-    this.diagram.isModified = false;
+   // document.getElementById("mySavedModel").innerHTML = this.diagram.model.toJson();
+
+    this.data_in_diagrame = JSON.parse(this.diagram.model.toJson());
+    console.log(this.data_in_diagrame);
+    //this.diagram.isModified = false;
   }
   load() {
     this.diagram.model = go.Model.fromJson(this.data);
+
+     this.diagram.grid.visible = true;
   }
 
 
