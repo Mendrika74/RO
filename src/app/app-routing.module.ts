@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { MaximaleComponent } from './component/maximale/maximale.component';
-import { MinimaleComponent } from './minimale/minimale.component';
+import { MinimaleComponent } from './component/minimale/minimale.component';
 import { AppComponent } from './app.component';
 
 
