@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/maximale', pathMatch: 'full' },
+	{ path: '', redirectTo: '/minimale', pathMatch: 'full' },
 	{ path: "minimale", component: MinimaleComponent },
 	{ path: "maximale", component: MaximaleComponent },
 
