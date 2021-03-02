@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Sommet } from "../../model/sommet.model";
 
 import * as go from 'gojs';
 
@@ -10,39 +11,45 @@ const $ = go.GraphObject.make;
   styleUrls: ['./maximale.component.scss']
 })
 export class MaximaleComponent implements OnInit {
-
+  tab = new Array();
   nRightClicks = 0;
 
   data: any = {
     "class": "go.GraphLinksModel",
     "nodeKeyProperty": "id",
     "nodeDataArray": [
-      { "id": -1, "loc": "155 -138", "category": "Start" },
+
+
+      { id: -1, loc: "-163.75 8.25", category: "Start" },
+      { id: -2, loc: "382.5 -7.5", category: "End" },
+      { text: "a", id: -3, loc: "1.25 30.5" },
+      { text: "b", loc: "66.25 -63.25", id: -4 },
+      { text: "c", loc: "55 101.75", id: -5 },
+      { text: "d", loc: "118.75 35.5", id: -6 },
+      //Manuel
+      /* { "id": -1, "loc": "155 -138", "category": "Start" },
       { "id": 0, "loc": "190 15", "text": "A" },
-      { "id": 1, "loc": "353 32", "text": "B" },
-      { "id": 2, "loc": "353 166", "text": "Search Items" },
-     /* { "id": 3, "loc": "512 12", "text": "View Item" },
-      { "id": 4, "loc": "661 17", "text": "View Cart" },
-      { "id": 5, "loc": "644 171", "text": "Update Cart" },
-      { "id": 6, "loc": "800 96", "text": "Checkout" },*/
-      { "id": -2, "loc": "757 229", "category": "End" }
+      { "id": 1, "loc": "375 0.75", "text": "B" },
+      { "id": 2, "loc": "353 166", "text": "D" },
+      { "id": 3, "loc": "143.5 170", "text": "C" },
+      { "id": -2, "loc": "182.5 152.5", "category": "End" },*/
     ],
-    "linkDataArray": [ 
-      { "from": -1, "to": 0, "text": "Visit online store" },
-      { "from": 0, "to": 1, "progress": "true", "text": "Browse" },
-      { "from": 0, "to": 2, "progress": "true", "text": "Use search bar" },
-      { "from": 1, "to": 2, "progress": "true", "text": "Use search bar" },
-     /* { "from": 2, "to": 3, "progress": "true", "text": "Click item" },
-      { "from": 2, "to": 2, "text": "Another search", "curviness": 20 },
-      { "from": 1, "to": 3, "progress": "true", "text": "Click item" },
-      { "from": 3, "to": 0, "text": "Not interested", "curviness": -100 },
-      { "from": 3, "to": 4, "progress": "true", "text": "Add to cart" },
-      { "from": 4, "to": 0, "text": "More shopping", "curviness": -150 },
-      { "from": 4, "to": 5, "text": "Update needed", "curviness": -50 },
-      { "from": 5, "to": 4, "text": "Update made" },
-      { "from": 4, "to": 6, "progress": "true", "text": "Proceed" },
-      { "from": 6, "to": 5, "text": "Update needed" },
-      { "from": 6, "to": -2, "progress": "true", "text": "Purchase made" }*/
+    "linkDataArray": [
+      { from: -1, to: -3, points: Array(8), text: "10" },
+      { from: -3, to: -4, text: "9", points: Array(8) },
+      { from: -3, to: -5, text: "5", points: Array(8) },
+      { from: -3, to: -6, text: "3", points: Array(8) },
+      { from: -6, to: -2, points: Array(8), text: "6" },
+      { from: -5, to: -2, points: Array(8), text: "1" },
+      { from: -4, to: -6, points: Array(8), text: "2" }
+      //Manuel
+      /* { "from": -1, "to": 0, "text": "10" },
+       { "from": 0, "to": 1, "progress": "true", "text": "9" },
+       { "from": 0, "to": 2, "progress": "true", "text": "3" },
+       { "from": 1, "to": 2, "progress": "true", "text": "2" },
+       { "from": 0, "to": 3, "progress": "true", "text": "5" },
+       { "from": 3, "to": -2, "progress": "true", "text": "1" },
+       { "from": 2, "to": -2, "progress": "true", "text": "6" },*/
     ]
   }
 
@@ -220,6 +227,7 @@ export class MaximaleComponent implements OnInit {
       // get the node data for which the user clicked the button
       var fromNode = adornment.adornedPart;
       var fromData = fromNode.data;
+
       // create a new "State" data object, positioned off to the right of the adorned Node
       var toData = { text: "SOMMET ", loc: "32" };
       var p = fromNode.location.copy();
@@ -300,16 +308,123 @@ export class MaximaleComponent implements OnInit {
 
   // Show the diagram's model in JSON format
   save() {
-   // document.getElementById("mySavedModel").innerHTML = this.diagram.model.toJson();
+    // document.getElementById("mySavedModel").innerHTML = this.diagram.model.toJson();
 
     this.data_in_diagrame = JSON.parse(this.diagram.model.toJson());
     console.log(this.data_in_diagrame);
+    var x = this.data_in_diagrame.linkDataArray.length;
+    console.log(x * -1);
+
     //this.diagram.isModified = false;
   }
   load() {
     this.diagram.model = go.Model.fromJson(this.data);
 
-     this.diagram.grid.visible = true;
+    this.diagram.grid.visible = true;
+  }
+
+  createTab() {
+    /*let from: number = 1;
+    let taille: number = this.data_in_diagrame.linkDataArray.length;
+    let sommet: Sommet;
+    sommet = new Sommet(0, from - 1);
+    sommet.addIndex_succ(this.data_in_diagrame.linkDataArray[0].to * (-1)); sommet.addArc(parseInt(this.data_in_diagrame.linkDataArray[0].text));
+    this.tab.push(sommet);
+    for (let i = 1; i < taille; i++) {
+      from = this.data_in_diagrame.linkDataArray[i].from * (-1)
+      sommet = new Sommet(70, from - 1);
+      sommet.addIndex_succ((this.data_in_diagrame.linkDataArray[i].to * (-1)) - 1); sommet.addArc(parseInt(this.data_in_diagrame.linkDataArray[i].text));
+      this.tab.push(sommet);
+    }
+    console.log(this.tab);*/
+
+    let x6: Sommet;
+    let x5: Sommet;
+    let x4: Sommet;
+    let x3: Sommet;
+    let x2: Sommet;
+    let x1: Sommet;
+
+
+    x6 = new Sommet(240, 5);
+    x6.addIndex_succ(0); x6.addArc(0);
+
+
+    x5 = new Sommet(240, 4);
+    x5.addIndex_succ(5); x5.addArc(6);
+
+    x4 = new Sommet(240, 3);
+    x4.addIndex_succ(5); x4.addArc(1);
+
+    x3 = new Sommet(240, 2);
+    x3.addIndex_succ(4); x3.addArc(2);
+
+    x2 = new Sommet(240, 1);
+    x2.addIndex_succ(2); x2.addArc(9);
+    x2.addIndex_succ(3); x2.addArc(5);
+    x2.addIndex_succ(4); x2.addArc(3);
+
+    x1 = new Sommet(0, 0);
+    x1.addIndex_succ(1); x1.addArc(10);
+
+    this.tab.push(x1);
+    this.tab.push(x2);
+    this.tab.push(x3);
+    this.tab.push(x4);
+    this.tab.push(x5);
+    this.tab.push(x6);
+    this.minFord();
+  }
+
+  minFord() {
+    let current: number = 0;
+    let compte: number = 0;
+    let next: number;
+    let sub: number;
+    let pos_i: number;
+    let pos_j: number;
+    let demitour: boolean = false;
+    while (compte < this.tab.length - 1) {
+      pos_i = this.tab[current].getPosi();
+      if (demitour) {
+        current = pos_i;
+      }
+      for (let sous_cp = 0; sous_cp < this.tab[current].getIndex_succ().length; sous_cp++) {
+        let res: number;
+        //next = Integer.parseInt(tab.get(current).getIndex_succ().get(sous_cp).toString());
+        pos_j = parseInt(this.tab[current].getIndex_succ()[sous_cp]);
+        sub = this.tab[pos_j].getLambda() - this.tab[current].getLambda();
+        if (pos_i < pos_j) {
+          if (sub > parseInt(this.tab[current].getArc()[sous_cp])) {
+            res = this.tab[current].getLambda() + parseInt(this.tab[current].getArc()[sous_cp]);
+            this.tab[pos_j].setLambda(res);
+            console.log("*******************IF****************");
+            console.log("I : " + pos_i);
+            console.log("J  : " + pos_j);
+            console.log(this.tab[current].getLambda() + " + " + this.tab[current].getArc()[sous_cp] + " = " + res);
+            demitour = false;
+          }
+        }
+        else {
+          if (sub < parseInt(this.tab[current].getArc()[sous_cp]) || sub == parseInt(this.tab[current].getArc()[sous_cp])) {
+            console.log("****************NOTHING*******************");
+            demitour = false;
+          } else {
+            res = this.tab[current].getLambda() + parseInt(this.tab[current].getArc()[sous_cp]);
+            this.tab[pos_j].setLambda(res);
+            pos_i = pos_j;
+            demitour = true;
+
+            console.log("*************ELSE**********************");
+            console.log("I : " + pos_i);
+            console.log("J  : " + pos_j);
+            console.log(this.tab[current].getLambda() + " + " + this.tab[current].getArc()[sous_cp] + " = " + res);
+          }
+        }
+      }
+      compte++;
+      current++;
+    }
   }
 
 
