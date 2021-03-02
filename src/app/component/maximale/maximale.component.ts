@@ -18,13 +18,13 @@ export class MaximaleComponent implements OnInit {
     "nodeKeyProperty": "id",
     "nodeDataArray": [
       { "id": -1, "loc": "155 -138", "category": "Start" },
-      { "id": 0, "loc": "190 15", "text": "Shopping" },
-      { "id": 1, "loc": "353 32", "text": "Browse Items" },
+      { "id": 0, "loc": "190 15", "text": "A" },
+      { "id": 1, "loc": "353 32", "text": "B" },
       { "id": 2, "loc": "353 166", "text": "Search Items" },
-      { "id": 3, "loc": "512 12", "text": "View Item" },
+     /* { "id": 3, "loc": "512 12", "text": "View Item" },
       { "id": 4, "loc": "661 17", "text": "View Cart" },
       { "id": 5, "loc": "644 171", "text": "Update Cart" },
-      { "id": 6, "loc": "800 96", "text": "Checkout" },
+      { "id": 6, "loc": "800 96", "text": "Checkout" },*/
       { "id": -2, "loc": "757 229", "category": "End" }
     ],
     "linkDataArray": [
@@ -32,7 +32,7 @@ export class MaximaleComponent implements OnInit {
       { "from": 0, "to": 1, "progress": "true", "text": "Browse" },
       { "from": 0, "to": 2, "progress": "true", "text": "Use search bar" },
       { "from": 1, "to": 2, "progress": "true", "text": "Use search bar" },
-      { "from": 2, "to": 3, "progress": "true", "text": "Click item" },
+     /* { "from": 2, "to": 3, "progress": "true", "text": "Click item" },
       { "from": 2, "to": 2, "text": "Another search", "curviness": 20 },
       { "from": 1, "to": 3, "progress": "true", "text": "Click item" },
       { "from": 3, "to": 0, "text": "Not interested", "curviness": -100 },
@@ -41,7 +41,7 @@ export class MaximaleComponent implements OnInit {
       { "from": 4, "to": 5, "text": "Update needed", "curviness": -50 },
       { "from": 5, "to": 4, "text": "Update made" },
       { "from": 4, "to": 6, "progress": "true", "text": "Proceed" },
-      { "from": 6, "to": 5, "text": "Update needed" },
+      { "from": 6, "to": 5, "text": "Update needed" },*/
       { "from": 6, "to": -2, "progress": "true", "text": "Purchase made" }
     ]
   }
@@ -113,7 +113,7 @@ export class MaximaleComponent implements OnInit {
         },
         new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         // define the node's outer shape, which will surround the TextBlock
-        $(go.Shape, "RoundedRectangle", roundedRectangleParams,
+        $(go.Shape, "Circle", roundedRectangleParams,
           {
             name: "SHAPE", fill: "#ffffff", strokeWidth: 0,
             stroke: null,
@@ -135,7 +135,7 @@ export class MaximaleComponent implements OnInit {
     this.diagram.nodeTemplate.selectionAdornmentTemplate =
       $(go.Adornment, "Spot",
         $(go.Panel, "Auto",
-          $(go.Shape, "RoundedRectangle", roundedRectangleParams,
+          $(go.Shape, "Circle", roundedRectangleParams,
             { fill: null, stroke: "#7986cb", strokeWidth: 3 }),
           $(go.Placeholder)  // a Placeholder sizes itself to the selected Node
         ),
