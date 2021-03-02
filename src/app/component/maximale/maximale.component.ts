@@ -86,7 +86,7 @@ export class MaximaleComponent implements OnInit {
           // have mouse wheel events zoom in and out instead of scroll up and down
           "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
           // support double-click in background creating a new node
-          "clickCreatingTool.archetypeNodeData": { text: "new node" },
+          "clickCreatingTool.archetypeNodeData": { text: "SOMMET" },
           // enable undo & redo
           "undoManager.isEnabled": true,
           positionComputation: function (diagram, pt) {
@@ -129,7 +129,25 @@ export class MaximaleComponent implements OnInit {
             font: "bold small-caps 11pt helvetica, bold arial, sans-serif", margin: 7, stroke: "rgba(0, 0, 0, .87)",
             editable: true  // editing the text automatically updates the model data
           },
-          new go.Binding("text").makeTwoWay())
+          new go.Binding("text").makeTwoWay()),
+        $("TreeExpanderButton",
+          {
+          // set the two additional properties used by "TreeExpanderButton"
+          // that control the shape depending on the value of Node.isTreeExpanded
+          "_treeExpandedFigure": "TriangleUp",
+          "_treeCollapsedFigure": "TriangleDown",
+          // set properties on the icon within the border
+          "ButtonIcon.fill": "darkcyan",
+          "ButtonIcon.strokeWidth": 0,
+          // set general "Button" properties
+          "ButtonBorder.figure": "Circle",
+          "ButtonBorder.stroke": "darkcyan",
+          "_buttonStrokeOver": "darkcyan"
+        },
+        { margin: new go.Margin(0, -6, -6, 0) },
+        { alignment: go.Spot.Bottom, alignmentFocus: go.Spot.Top },
+
+        { visible: true })
       );
 
 
@@ -203,8 +221,9 @@ export class MaximaleComponent implements OnInit {
       var fromNode = adornment.adornedPart;
       var fromData = fromNode.data;
       // create a new "State" data object, positioned off to the right of the adorned Node
-      var toData = { text: "Nom tache ", loc: "32" };
+      var toData = { text: "SOMMET ", loc: "32" };
       var p = fromNode.location.copy();
+
       p.x += 200;
       toData.loc = go.Point.stringify(p);  // the "loc" property is a string, not a Point object
       // add the new node data to the model
@@ -274,6 +293,7 @@ export class MaximaleComponent implements OnInit {
         )
       );
 
+ 
     // read in the JSON data from the "mySavedModel" element
     this.load();
   }
@@ -291,6 +311,8 @@ export class MaximaleComponent implements OnInit {
 
      this.diagram.grid.visible = true;
   }
+
+
 
 
 }
