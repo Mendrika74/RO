@@ -30,7 +30,7 @@ export class MaximaleComponent implements OnInit {
 
       { from: -1, to: -2, text: "20", points: Array(8) },
       { from: -1, to: -3, text: "5", points: Array(8) },
-      { from: -3, to: -4, text: "2", points: Array(8) },
+      { from: -3, to: -4, text: "1", points: Array(8) },
       { from: -3, to: -5, text: "4", points: Array(8) },
       { from: -5, to: -6, text: "1", points: Array(8) },
       { from: -4, to: -5, points: Array(8), text: "3" },
@@ -515,24 +515,32 @@ export class MaximaleComponent implements OnInit {
     let res_: number;
     let stop: boolean = false;
     let i: number = taille - 1;
+    let lalana_miverina = new Array();
+      console.log(" ");
+    console.log(" %c+++++ calcule recule commance +++++", 'background: #222; color: #bada55');
     for (i; i >= 0; i--) {
       //console.log("lambda de " + i + " = " + tab[i].getLambda());
       for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
         if ((i + 1) == this.data_in_diagrame.linkDataArray[j].to * (-1)) {
-          //console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
+          console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " +  (i + 1));
           lambda = tab[i].getLambda();
           res_ = lambda - parseInt(this.data_in_diagrame.linkDataArray[j].text);
           console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
-          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda()) {
-            //console.log("asina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
+          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda() && j!=0) {
+            lalana_miverina.push({to : this.data_in_diagrame.linkDataArray[j].from * (-1) , from: (i+1)});
+            console.log(" %casina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1) , 'background: green; color: #bada55');
             //console.log("lambda de " + i + " = " + tab[i].getLambda());
           } else {
-            //console.log("tsy lalana");
+          console.log("tsy lalana");
           }
         }
       }
+      console.log("+++++++++ tour =  "+ i + " +++++");
+      console.log(" ");
       //console.log("tour : " + i);
     }
+
+    console.log(lalana_miverina);
 
   }
 }
