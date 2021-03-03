@@ -394,7 +394,6 @@ export class MaximaleComponent implements OnInit {
             this.tab[pos_j].setLambda(res);
             pos_i = pos_j;
             demitour = true;
-
             console.log("*************ELSE**********************");
             console.log("I : " + pos_i);
             console.log("J  : " + pos_j);
