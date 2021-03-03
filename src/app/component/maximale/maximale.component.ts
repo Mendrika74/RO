@@ -41,7 +41,8 @@ export class MaximaleComponent implements OnInit {
       { from: -3, to: -6, text: "3", points: Array(8) },
       { from: -6, to: -2, points: Array(8), text: "6" },
       { from: -5, to: -2, points: Array(8), text: "1" },
-      { from: -4, to: -6, points: Array(8), text: "2" }
+      { from: -4, to: -6, points: Array(8), text: "2" },
+        { from: -6, to: -5, points: Array(8), text: "8" }
       //Manuel
       /* { "from": -1, "to": 0, "text": "10" },
        { "from": 0, "to": 1, "progress": "true", "text": "9" },
@@ -346,20 +347,21 @@ export class MaximaleComponent implements OnInit {
     let x1: Sommet;
 
 
-    x6 = new Sommet(240, 5);
+    x6 = new Sommet(Infinity, 5);
     x6.addIndex_succ(0); x6.addArc(0);
 
 
-    x5 = new Sommet(240, 4);
+    x5 = new Sommet(Infinity, 4);
+    x5.addIndex_succ(3); x5.addArc(8);
     x5.addIndex_succ(5); x5.addArc(6);
 
-    x4 = new Sommet(240, 3);
-    x4.addIndex_succ(5); x4.addArc(1);
+    x4 = new Sommet(Infinity, 3);
+    x4.addIndex_succ(5); x4.addArc(20);
 
-    x3 = new Sommet(240, 2);
+    x3 = new Sommet(Infinity, 2);
     x3.addIndex_succ(4); x3.addArc(2);
 
-    x2 = new Sommet(240, 1);
+    x2 = new Sommet(Infinity, 1);
     x2.addIndex_succ(2); x2.addArc(9);
     x2.addIndex_succ(3); x2.addArc(5);
     x2.addIndex_succ(4); x2.addArc(3);
@@ -368,6 +370,7 @@ export class MaximaleComponent implements OnInit {
     x1.addIndex_succ(1); x1.addArc(10);
 
     this.tab.push(x1);
+    console.log(x2);
     this.tab.push(x2);
     this.tab.push(x3);
     this.tab.push(x4);
@@ -385,28 +388,32 @@ export class MaximaleComponent implements OnInit {
     let pos_j: number;
     let demitour: boolean = false;
     while (compte < this.tab.length - 1) {
-      pos_i = this.tab[current].getPosi();
+     
       if (demitour) {
         current = pos_i;
+      }else{
+         pos_i = this.tab[current].getPosi();
       }
       for (let sous_cp = 0; sous_cp < this.tab[current].getIndex_succ().length; sous_cp++) {
         let res: number;
         //next = Integer.parseInt(tab.get(current).getIndex_succ().get(sous_cp).toString());
         pos_j = parseInt(this.tab[current].getIndex_succ()[sous_cp]);
         sub = this.tab[pos_j].getLambda() - this.tab[current].getLambda();
+        console.log("Sub_before = " , this.tab[pos_j].getLambda());
         if (pos_i < pos_j) {
           if (sub > parseInt(this.tab[current].getArc()[sous_cp])) {
             res = this.tab[current].getLambda() + parseInt(this.tab[current].getArc()[sous_cp]);
             this.tab[pos_j].setLambda(res);
+              console.log("Sub_after = " , this.tab[pos_i].getLambda());
             console.log("*******************IF****************");
             console.log("I : " + pos_i);
             console.log("J  : " + pos_j);
-            console.log(this.tab[current].getLambda() + " + " + this.tab[current].getArc()[sous_cp] + " = " + res);
+            console.log("Lamda "+pos_j+" = "+ this.tab[current].getLambda() + " + " + this.tab[current].getArc()[sous_cp] + " = " + res);
             demitour = false;
           }
         }
         else {
-          if (sub < parseInt(this.tab[current].getArc()[sous_cp]) || sub == parseInt(this.tab[current].getArc()[sous_cp])) {
+          if (sub <= parseInt(this.tab[current].getArc()[sous_cp])) {
             console.log("****************NOTHING*******************");
             demitour = false;
           } else {
@@ -419,6 +426,8 @@ export class MaximaleComponent implements OnInit {
             console.log("I : " + pos_i);
             console.log("J  : " + pos_j);
             console.log(this.tab[current].getLambda() + " + " + this.tab[current].getArc()[sous_cp] + " = " + res);
+            compte = pos_i -1 ;
+            break;
           }
         }
       }
