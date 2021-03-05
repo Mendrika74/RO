@@ -11,46 +11,31 @@ const $ = go.GraphObject.make;
   styleUrls: ['./maximale.component.scss']
 })
 export class MaximaleComponent implements OnInit {
-  tab = new Array();
+  // tab = new Array();
+  tabFus = new Array();
   nRightClicks = 0;
 
   data: any = {
     "class": "go.GraphLinksModel",
     "nodeKeyProperty": "id",
     "nodeDataArray": [
-
-
-      { id: -1, loc: "-163.75 8.25", category: "Start" },
-      { id: -2, loc: "382.5 -7.5", category: "End" },
-      { text: "a", id: -3, loc: "1.25 30.5" },
-      { text: "b", loc: "66.25 -63.25", id: -4 },
-      { text: "c", loc: "55 101.75", id: -5 },
-      { text: "d", loc: "118.75 35.5", id: -6 },
-      //Manuel
-      /* { "id": -1, "loc": "155 -138", "category": "Start" },
-      { "id": 0, "loc": "190 15", "text": "A" },
-      { "id": 1, "loc": "375 0.75", "text": "B" },
-      { "id": 2, "loc": "353 166", "text": "D" },
-      { "id": 3, "loc": "143.5 170", "text": "C" },
-      { "id": -2, "loc": "182.5 152.5", "category": "End" },*/
+      { text: "x1", id: -1, loc: "-338 -17" },
+      { text: "x2", loc: "-211 -96", id: -2 },
+      { text: "x3", loc: "-213 16", id: -3 },
+      { text: "x4", loc: "-112 79", id: -4 },
+      { text: "x5", loc: "-13 16", id: -5 },
+      { text: "x6", loc: "129 -61", id: -6 },
     ],
     "linkDataArray": [
-      { from: -1, to: -3, points: Array(8), text: "10" },
-      { from: -3, to: -4, text: "9", points: Array(8) },
-      { from: -3, to: -5, text: "5", points: Array(8) },
-      { from: -3, to: -6, text: "3", points: Array(8) },
-      { from: -6, to: -2, points: Array(8), text: "6" },
-      { from: -5, to: -2, points: Array(8), text: "1" },
-      { from: -4, to: -6, points: Array(8), text: "2" },
-        { from: -6, to: -5, points: Array(8), text: "8" }
-      //Manuel
-      /* { "from": -1, "to": 0, "text": "10" },
-       { "from": 0, "to": 1, "progress": "true", "text": "9" },
-       { "from": 0, "to": 2, "progress": "true", "text": "3" },
-       { "from": 1, "to": 2, "progress": "true", "text": "2" },
-       { "from": 0, "to": 3, "progress": "true", "text": "5" },
-       { "from": 3, "to": -2, "progress": "true", "text": "1" },
-       { "from": 2, "to": -2, "progress": "true", "text": "6" },*/
+
+      { from: -1, to: -2, text: "20", points: Array(8) },
+      { from: -1, to: -3, text: "5", points: Array(8) },
+      { from: -3, to: -4, text: "2", points: Array(8) },
+      { from: -3, to: -5, text: "4", points: Array(8) },
+      { from: -5, to: -6, text: "1", points: Array(8) },
+      { from: -4, to: -5, points: Array(8), text: "3" },
+      { from: -2, to: -6, points: Array(8), text: "4" },
+
     ]
   }
 
@@ -140,22 +125,22 @@ export class MaximaleComponent implements OnInit {
           new go.Binding("text").makeTwoWay()),
         $("TreeExpanderButton",
           {
-          // set the two additional properties used by "TreeExpanderButton"
-          // that control the shape depending on the value of Node.isTreeExpanded
-          "_treeExpandedFigure": "TriangleUp",
-          "_treeCollapsedFigure": "TriangleDown",
-          // set properties on the icon within the border
-          "ButtonIcon.fill": "darkcyan",
-          "ButtonIcon.strokeWidth": 0,
-          // set general "Button" properties
-          "ButtonBorder.figure": "Circle",
-          "ButtonBorder.stroke": "darkcyan",
-          "_buttonStrokeOver": "darkcyan"
-        },
-        { margin: new go.Margin(0, -6, -6, 0) },
-        { alignment: go.Spot.Bottom, alignmentFocus: go.Spot.Top },
+            // set the two additional properties used by "TreeExpanderButton"
+            // that control the shape depending on the value of Node.isTreeExpanded
+            "_treeExpandedFigure": "TriangleUp",
+            "_treeCollapsedFigure": "TriangleDown",
+            // set properties on the icon within the border
+            "ButtonIcon.fill": "darkcyan",
+            "ButtonIcon.strokeWidth": 0,
+            // set general "Button" properties
+            "ButtonBorder.figure": "Circle",
+            "ButtonBorder.stroke": "darkcyan",
+            "_buttonStrokeOver": "darkcyan"
+          },
+          { margin: new go.Margin(0, -6, -6, 0) },
+          { alignment: go.Spot.Bottom, alignmentFocus: go.Spot.Top },
 
-        { visible: true })
+          { visible: true })
       );
 
 
@@ -302,7 +287,7 @@ export class MaximaleComponent implements OnInit {
         )
       );
 
- 
+
     // read in the JSON data from the "mySavedModel" element
     this.load();
   }
@@ -324,8 +309,8 @@ export class MaximaleComponent implements OnInit {
     this.diagram.grid.visible = true;
   }
 
-  createTab() {
-    /*let from: number = 1;
+  createTab() {/*
+    let from: number = 1;
     let taille: number = this.data_in_diagrame.linkDataArray.length;
     let sommet: Sommet;
     sommet = new Sommet(0, from - 1);
@@ -337,49 +322,52 @@ export class MaximaleComponent implements OnInit {
       sommet.addIndex_succ((this.data_in_diagrame.linkDataArray[i].to * (-1)) - 1); sommet.addArc(parseInt(this.data_in_diagrame.linkDataArray[i].text));
       this.tab.push(sommet);
     }
-    console.log(this.tab);*/
-
-    let x6: Sommet;
-    let x5: Sommet;
-    let x4: Sommet;
-    let x3: Sommet;
-    let x2: Sommet;
-    let x1: Sommet;
-
-
-    x6 = new Sommet(Infinity, 5);
-    x6.addIndex_succ(0); x6.addArc(0);
-
-
-    x5 = new Sommet(Infinity, 4);
-    x5.addIndex_succ(3); x5.addArc(8);
-    x5.addIndex_succ(5); x5.addArc(6);
-
-    x4 = new Sommet(Infinity, 3);
-    x4.addIndex_succ(5); x4.addArc(20);
-
-    x3 = new Sommet(Infinity, 2);
-    x3.addIndex_succ(4); x3.addArc(2);
-
-    x2 = new Sommet(Infinity, 1);
-    x2.addIndex_succ(2); x2.addArc(9);
-    x2.addIndex_succ(3); x2.addArc(5);
-    x2.addIndex_succ(4); x2.addArc(3);
-
-    x1 = new Sommet(0, 0);
-    x1.addIndex_succ(1); x1.addArc(10);
-
-    this.tab.push(x1);
-    console.log(x2);
-    this.tab.push(x2);
-    this.tab.push(x3);
-    this.tab.push(x4);
-    this.tab.push(x5);
-    this.tab.push(x6);
-    this.minFord();
+    console.log(this.tab);
+    /*
+        let x6: Sommet;
+        let x5: Sommet;
+        let x4: Sommet;
+        let x3: Sommet;
+        let x2: Sommet;
+        let x1: Sommet;
+    
+    
+        x6 = new Sommet(Infinity, 5);
+        x6.addIndex_succ(0); x6.addArc(0);
+    
+    
+        x5 = new Sommet(Infinity, 4);
+        x5.addIndex_succ(3); x5.addArc(8);
+        x5.addIndex_succ(5); x5.addArc(6);
+    
+        x4 = new Sommet(Infinity, 3);
+        x4.addIndex_succ(5); x4.addArc(20);
+    
+        x3 = new Sommet(Infinity, 2);
+        x3.addIndex_succ(4); x3.addArc(2);
+    
+        x2 = new Sommet(Infinity, 1);
+        x2.addIndex_succ(2); x2.addArc(9);
+        x2.addIndex_succ(3); x2.addArc(5);
+        x2.addIndex_succ(4); x2.addArc(3);
+    
+        x1 = new Sommet(0, 0);
+        x1.addIndex_succ(1); x1.addArc(10);
+    
+        this.tab.push(x1);
+        console.log(x2);
+        this.tab.push(x2);
+        this.tab.push(x3);
+        this.tab.push(x4);
+        this.tab.push(x5);
+        this.tab.push(x6);
+        console.log(this.tab);
+    */
+    //this.fusionner();
+    //this.minFord();
   }
 
-  minFord() {
+  minFord(tab) {
     let current: number = 0;
     let compte: number = 0;
     let next: number;
@@ -387,45 +375,47 @@ export class MaximaleComponent implements OnInit {
     let pos_i: number;
     let pos_j: number;
     let demitour: boolean = false;
-    while (compte < this.tab.length - 1) {
-     
+    console.log("lengy = ", tab.length);
+
+    while (compte < tab.length - 1) {
+
       if (demitour) {
         current = pos_i;
-      }else{
-         pos_i = this.tab[current].getPosi();
+      } else {
+        pos_i = tab[current].getPosi();
       }
-      for (let sous_cp = 0; sous_cp < this.tab[current].getIndex_succ().length; sous_cp++) {
+      for (let sous_cp = 0; sous_cp < tab[current].getIndex_succ().length; sous_cp++) {
         let res: number;
         //next = Integer.parseInt(tab.get(current).getIndex_succ().get(sous_cp).toString());
-        pos_j = parseInt(this.tab[current].getIndex_succ()[sous_cp]);
-        sub = this.tab[pos_j].getLambda() - this.tab[current].getLambda();
-        console.log("Sub_before = " , this.tab[pos_j].getLambda());
+        pos_j = parseInt(tab[current].getIndex_succ()[sous_cp]);
+        sub = tab[pos_j].getLambda() - tab[current].getLambda();
+        console.log("Sub_before = ", tab[pos_j].getLambda());
         if (pos_i < pos_j) {
-          if (sub > parseInt(this.tab[current].getArc()[sous_cp])) {
-            res = this.tab[current].getLambda() + parseInt(this.tab[current].getArc()[sous_cp]);
-            this.tab[pos_j].setLambda(res);
-              console.log("Sub_after = " , this.tab[pos_i].getLambda());
+          if (sub > parseInt(tab[current].getArc()[sous_cp])) {
+            res = tab[current].getLambda() + parseInt(tab[current].getArc()[sous_cp]);
+            tab[pos_j].setLambda(res);
+            console.log("Sub_after = ", tab[pos_i].getLambda());
             console.log("*******************IF****************");
             console.log("I : " + pos_i);
             console.log("J  : " + pos_j);
-            console.log("Lamda "+pos_j+" = "+ this.tab[current].getLambda() + " + " + this.tab[current].getArc()[sous_cp] + " = " + res);
+            console.log("Lamda " + pos_j + " = " + tab[current].getLambda() + " + " + tab[current].getArc()[sous_cp] + " = " + res);
             demitour = false;
           }
         }
         else {
-          if (sub <= parseInt(this.tab[current].getArc()[sous_cp])) {
+          if (sub <= parseInt(tab[current].getArc()[sous_cp])) {
             console.log("****************NOTHING*******************");
             demitour = false;
           } else {
-            res = this.tab[current].getLambda() + parseInt(this.tab[current].getArc()[sous_cp]);
-            this.tab[pos_j].setLambda(res);
+            res = tab[current].getLambda() + parseInt(tab[current].getArc()[sous_cp]);
+            tab[pos_j].setLambda(res);
             pos_i = pos_j;
             demitour = true;
             console.log("*************ELSE**********************");
             console.log("I : " + pos_i);
             console.log("J  : " + pos_j);
-            console.log(this.tab[current].getLambda() + " + " + this.tab[current].getArc()[sous_cp] + " = " + res);
-            compte = pos_i -1 ;
+            console.log(tab[current].getLambda() + " + " + tab[current].getArc()[sous_cp] + " = " + res);
+            compte = pos_i - 1;
             break;
           }
         }
@@ -435,7 +425,114 @@ export class MaximaleComponent implements OnInit {
     }
   }
 
+  fusionner() {/*
+    let from_current: number = null;
+    let from_latest: number = null;
+    let j: number = 0;
+    for (let i = 0; i < this.tab.length; i++) {
+      from_current = this.tab[i].posi_tache;
+      console.log("from current " + from_current + "  from latest " + from_latest);
+      if (from_current == from_latest) {
+        if (this.tabFus[j] == null) {
+          this.tabFus[j] = this.tab[i];
+        } else {
+          this.tabFus[j].addIndex_succ(this.tab[i].index_succ); this.tabFus[j].addArc(parseInt(this.tab[i].arc));
+        }
+      } else {
+        this.tabFus[j] = this.tab[i];
+        j++;
+      }
+      from_latest = from_current;
+    }
+    console.log(this.tabFus);*/
 
+  }
 
+  creating() {/*
+    let taille: number = this.data_in_diagrame.linkDataArray.length;
+    let from_current: number = null;
+    let from_latest: number = null;
+    let sommet: Sommet;
+    let current_index: number = 0;
+    for (let i = 0; i < taille; i++) {
+      this.tab.push(sommet);
+    }
+    for (let i = 0; i < taille; i++) {
+      from_current = this.data_in_diagrame.linkDataArray[i].from * (-1);
+      if (from_current == from_latest) {
+        console.log("to fusion");
+        sommet = new Sommet(Infinity, this.data_in_diagrame.linkDataArray[i].from * (-1));
+        this.tab.push(sommet);
+        //this.tab[current_index].addIndex_succ(this.data_in_diagrame.linkDataArray[i].to * (-1));
+        //this.tab[current_index].addArc(parseInt(this.data_in_diagrame.linkDataArray[i].text));
+      } else {
+        console.log("single");
+        current_index++;
+      }
+      from_latest = from_current;
+      console.log(this.tab);
 
+      //console.log(this.data_in_diagrame.linkDataArray[i].from);
+    }*/
+
+  }
+
+  algoFusion() {
+    let tab = new Array();
+    let taillelink: number = this.data_in_diagrame.linkDataArray.length;
+    let tailleNode: number = this.data_in_diagrame.nodeDataArray.length;
+    let sommet: Sommet;
+    let trouve: boolean = false;
+    for (let i = 0; i < tailleNode; i++) {
+      trouve = false;
+      //sommet = new Sommet(Infinity, (this.data_in_diagrame.linkDataArray[i].from * (-1)) - 2);4
+      if (i == 0) {
+        sommet = new Sommet(0, 0);
+      } else {
+        sommet = new Sommet(Infinity, i);
+      }
+      console.log(sommet);
+      for (let j = 0; j < taillelink; j++) {
+        if ((this.data_in_diagrame.nodeDataArray[i].id * (-1)) == (this.data_in_diagrame.linkDataArray[j].from * (-1))) {
+          // console.log("To= ", (this.data_in_diagrame.linkDataArray[j].to * (-1)) - 2);     
+          sommet.addIndex_succ((this.data_in_diagrame.linkDataArray[j].to * (-1)) - 1);
+          sommet.addArc(parseInt(this.data_in_diagrame.linkDataArray[j].text));
+          trouve = true;
+        }
+        //console.log(this.data_in_diagrame.linkDataArray[j].from * (-1));
+      }
+      tab.push(sommet);
+    }
+    console.log(tab);
+    this.minFord(tab);
+    this.findPath(tab);
+  }
+
+  findPath(tab) {
+    let taille: number = tab.length;
+    let lambda: number;
+    let lambda_j: number;
+    let res_: number;
+    let stop: boolean = false;
+    let i: number = taille - 1;
+    for (i; i >= 0; i--) {
+      //console.log("lambda de " + i + " = " + tab[i].getLambda());
+      for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
+        if ((i + 1) == this.data_in_diagrame.linkDataArray[j].to * (-1)) {
+          //console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
+          lambda = tab[i].getLambda();
+          res_ = lambda - parseInt(this.data_in_diagrame.linkDataArray[j].text);
+          console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
+          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda()) {
+            //console.log("asina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
+            //console.log("lambda de " + i + " = " + tab[i].getLambda());
+          } else {
+            //console.log("tsy lalana");
+          }
+        }
+      }
+      //console.log("tour : " + i);
+    }
+
+  }
 }

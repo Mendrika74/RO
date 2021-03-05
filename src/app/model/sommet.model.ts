@@ -4,6 +4,7 @@ export class Sommet {
     private posi_tache: number;
     private index_succ = new Array();
 
+
     constructor(lambda, position) {
         this.lambda = lambda;
         this.posi_tache = position;
