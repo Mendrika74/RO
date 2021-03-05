@@ -30,7 +30,7 @@ export class MaximaleComponent implements OnInit {
 
       { from: -1, to: -2, text: "20", points: Array(8) },
       { from: -1, to: -3, text: "5", points: Array(8) },
-      { from: -3, to: -4, text: "2", points: Array(8) },
+      { from: -3, to: -4, text: "1", points: Array(8) },
       { from: -3, to: -5, text: "4", points: Array(8) },
       { from: -5, to: -6, text: "1", points: Array(8) },
       { from: -4, to: -5, points: Array(8), text: "3" },
@@ -522,12 +522,18 @@ export class MaximaleComponent implements OnInit {
           //console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
           lambda = tab[i].getLambda();
           res_ = lambda - parseInt(this.data_in_diagrame.linkDataArray[j].text);
-          console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
-          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda()) {
-            //console.log("asina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
+          console.log(lambda + " - " + parseInt(this.data_in_diagrame.linkDataArray[j].text) + " = " + res_);
+          console.log(res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
+          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda() && j != 0) {
+            console.log("i[" + i + "]" + " __ j[" + j + "]");
+            console.log("asina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
             //console.log("lambda de " + i + " = " + tab[i].getLambda());
+            console.log("************************");
+
           } else {
-            //console.log("tsy lalana");
+            console.log("tsy lalana");
+            console.log("************************");
+
           }
         }
       }
