@@ -19,12 +19,12 @@ export class MaximaleComponent implements OnInit {
     "class": "go.GraphLinksModel",
     "nodeKeyProperty": "id",
     "nodeDataArray": [
-      { text: "x1", id: -1, loc: "-338 -17" },
-      { text: "x2", loc: "-211 -96", id: -2 },
-      { text: "x3", loc: "-213 16", id: -3 },
-      { text: "x4", loc: "-112 79", id: -4 },
-      { text: "x5", loc: "-13 16", id: -5 },
-      { text: "x6", loc: "129 -61", id: -6 },
+      { text: "x1", id: -1, loc: "-338 -17" , color: "white"},
+      { text: "x2", loc: "-211 -96", id: -2, color: "white" },
+      { text: "x3", loc: "-213 16", id: -3 , color: "white"},
+      { text: "x4", loc: "-112 79", id: -4, color: "white" },
+      { text: "x5", loc: "-13 16", id: -5 , color: "white"},
+      { text: "x6", loc: "129 -61", id: -6, color: "white" },
     ],
     "linkDataArray": [
 
@@ -108,7 +108,9 @@ export class MaximaleComponent implements OnInit {
         },
         new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         // define the node's outer shape, which will surround the TextBlock
-        $(go.Shape, "Circle", roundedRectangleParams,
+        $(go.Shape, "Circle",
+          new go.Binding("fill", "color"),
+          roundedRectangleParams,
           {
             name: "SHAPE", fill: "#ffffff", strokeWidth: 0,
             stroke: null,
@@ -123,6 +125,13 @@ export class MaximaleComponent implements OnInit {
             editable: true  // editing the text automatically updates the model data
           },
           new go.Binding("text").makeTwoWay()),
+        {
+        click: function(e, obj) { console.log("Clicked on " + obj.part.data.id); },
+        selectionChanged: function(part) {
+            var shape = part.elt(0);
+            shape.fill = part.isSelected ? "#ffaaaa" : "white";
+          }
+      },
         $("TreeExpanderButton",
           {
             // set the two additional properties used by "TreeExpanderButton"
@@ -183,7 +192,7 @@ export class MaximaleComponent implements OnInit {
     );
 
     this.diagram.nodeTemplateMap.add("End",
-      $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+      $(go.Node, "Spot", { desiredSize: new go.Size(100, 100) },
         new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         $(go.Shape, "Circle",
           {
@@ -287,6 +296,38 @@ export class MaximaleComponent implements OnInit {
         )
       );
 
+      //ALL listener
+
+       this.diagram.addDiagramListener("ObjectSingleClicked",
+      function(e) {
+        var part = e.subject.part;
+        if (!(part instanceof go.Link)) console.log("Clicked on " , part.data);
+      });
+
+      this.diagram.addModelChangedListener(function(evt) {
+    // ignore unimportant Transaction events
+    if (!evt.isTransactionFinished) return;
+    var txn = evt.object;  // a Transaction
+    if (txn === null) return;
+    // iterate over all of the actual ChangedEvents of the Transaction
+    txn.changes.each(function(e) {
+      // record node insertions and removals
+      if (e.change === go.ChangedEvent.Property) {
+        if (e.modelChange === "linkFromKey") {
+          console.log(evt.propertyName + " changed From key of link: " +
+                      e.object + " from: " + e.oldValue + " to: " + e.newValue);
+        } else if (e.modelChange === "linkToKey") {
+          console.log(evt.propertyName + " changed To key of link: " +
+                      e.object + " from: " + e.oldValue + " to: " + e.newValue);
+        }
+      } else if (e.change === go.ChangedEvent.Insert && e.modelChange === "linkDataArray") {
+        console.log(evt.propertyName + " added link: " + e.newValue);
+      } else if (e.change === go.ChangedEvent.Remove && e.modelChange === "linkDataArray") {
+        console.log(evt.propertyName + " removed link: " + e.oldValue);
+      }
+    });
+  });
+
 
     // read in the JSON data from the "mySavedModel" element
     this.load();
@@ -308,6 +349,9 @@ export class MaximaleComponent implements OnInit {
 
     this.diagram.grid.visible = true;
   }
+
+ 
+
 
   createTab() {/*
     let from: number = 1;
@@ -509,6 +553,12 @@ export class MaximaleComponent implements OnInit {
   }
 
   findPath(tab) {
+
+    var data = this.diagram.model.findNodeDataForKey("-4");
+    // This will NOT change the color of the "Delta" Node
+    console.log("data", data);
+     if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+
     let taille: number = tab.length;
     let lambda: number;
     let lambda_j: number;
