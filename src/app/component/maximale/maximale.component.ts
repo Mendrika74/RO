@@ -106,6 +106,7 @@ export class MaximaleComponent implements OnInit {
           shadowOffset: new go.Point(0, 1),
           shadowColor: "rgba(0, 0, 0, .14)"
         },
+
         new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         // define the node's outer shape, which will surround the TextBlock
         $(go.Shape, "Circle",
@@ -151,6 +152,10 @@ export class MaximaleComponent implements OnInit {
 
           { visible: true })
       );
+
+
+    // start all nodes yellow
+    this.diagram.model.modelData.color = "yellow";
 
 
     // unlike the normal selection Adornment, this one includes a Button
@@ -327,6 +332,7 @@ export class MaximaleComponent implements OnInit {
       }
     });
   });
+
 
 
     // read in the JSON data from the "mySavedModel" element
@@ -551,7 +557,7 @@ export class MaximaleComponent implements OnInit {
     this.minFord(tab);
     this.findPath(tab);
   }
-
+/*
   findPath(tab) {
 
     var data = this.diagram.model.findNodeDataForKey("-4");
@@ -566,31 +572,138 @@ export class MaximaleComponent implements OnInit {
     let stop: boolean = false;
     let i: number = taille - 1;
     let lalana_miverina = new Array();
-      console.log(" ");
+    console.log(" ");
     console.log(" %c+++++ calcule recule commance +++++", 'background: #222; color: #bada55');
     for (i; i >= 0; i--) {
       //console.log("lambda de " + i + " = " + tab[i].getLambda());
       for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
         if ((i + 1) == this.data_in_diagrame.linkDataArray[j].to * (-1)) {
-          console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " +  (i + 1));
+          console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
           lambda = tab[i].getLambda();
           res_ = lambda - parseInt(this.data_in_diagrame.linkDataArray[j].text);
           console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
-          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda() && j!=0) {
-            lalana_miverina.push({to : this.data_in_diagrame.linkDataArray[j].from * (-1) , from: (i+1)});
-            console.log(" %casina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1) , 'background: green; color: #bada55');
+          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda() && j != 0) {
+            lalana_miverina.push({ to: this.data_in_diagrame.linkDataArray[j].from * (-1), from: (i + 1) });
+            console.log(" %casina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
             //console.log("lambda de " + i + " = " + tab[i].getLambda());
+            console.log("************************");
+
           } else {
-          console.log("tsy lalana");
+            console.log("tsy lalana");
           }
         }
       }
-      console.log("+++++++++ tour =  "+ i + " +++++");
+      console.log("+++++++++ tour =  " + i + " +++++");
       console.log(" ");
       //console.log("tour : " + i);
     }
-
     console.log(lalana_miverina);
+    this.delNoTo(lalana_miverina);
+  }*/
+
+  findPath(tab) {
+    
+    var data = this.diagram.model.findNodeDataForKey("-4");
+    // This will NOT change the color of the "Delta" Node
+    console.log("data", data);
+     if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+
+    let taille: number = tab.length;
+    let lambda: number;
+    let lambda_first: number;
+    let res_: number;
+    let stop: boolean = false;
+    let i: number = taille - 1;
+    let lalana_miverina = new Array();
+    console.log(" ");
+    console.log(" %c+++++ calcule recule commance +++++", 'background: #222; color: #bada55');
+    lambda_first = tab[i].getLambda();
+    for (i; i >= 0; i--) {
+      lambda = lambda_first;
+      //console.log("lambda de " + i + " = " + tab[i].getLambda());     
+      for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
+        if ((i + 1) == this.data_in_diagrame.linkDataArray[j].to * (-1)) {
+          console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
+          //lambda = tab[i].getLambda();
+          res_ = lambda - parseInt(this.data_in_diagrame.linkDataArray[j].text);
+          console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
+          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda()) {
+            lambda_first = tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda();
+            console.log("lambda first " + lambda_first);
+            lalana_miverina.push({ to: this.data_in_diagrame.linkDataArray[j].from * (-1), from: (i + 1) });
+            console.log(" %casina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
+            //console.log("lambda de " + i + " = " + tab[i].getLambda());
+            console.log("************************");
+          } else {
+            console.log("tsy lalana");
+          }
+        }
+      }
+      console.log("+++++++++ tour =  " + i + " +++++");
+      console.log(" ");
+      //console.log("tour : " + i);
+    }
+    console.log(lalana_miverina);
+    this.delNoTo(lalana_miverina);
+  }
+
+
+  realPath(lalana_miverina) {
+    let farany_0: number = lalana_miverina[0].from;
+    let alohany_0: number = lalana_miverina[0].to;
+    let farany: number;
+    let alohany: number;
+    console.log(" %c  asina couleur ny arc " + alohany_0 + " to " + farany_0, 'background: green; color: #bada55');
+    for (let i = 1; i < lalana_miverina.length; i++) {
+      farany = lalana_miverina[i].from;
+      alohany = lalana_miverina[i].to;
+      console.log("farany : " + farany + "  alohany : " + alohany);
+      for (let j = i; j < lalana_miverina.length; j++) {
+        if (alohany_0 == lalana_miverina[j].from) {
+          console.log(" %c  asina couleur ny arc " + alohany + " to " + farany, 'background: green; color: #bada55');
+        } else {
+          console.log("aaa");
+        }
+      }
+      alohany_0 = alohany;
+      farany_0 = farany;
+    }
+  }
+
+  delNoTo(lalana_miverina) {
+    let tabFiltre = new Array();
+    let trouve: boolean = false;
+    let fin: number = lalana_miverina[0].from;
+    lalana_miverina.push({ to: fin, from: 0 });
+    for (let i = 0; i < lalana_miverina.length; i++) {
+      trouve = false;
+      for (let j = 0; j < lalana_miverina.length; j++) {
+        if (lalana_miverina[i].from == lalana_miverina[j].to) {
+          trouve = true;
+        }
+        if (trouve) {
+          tabFiltre.push(lalana_miverina[i]);
+          break;
+        }
+      }
+    }
+    console.log(tabFiltre);
+    //this.coloriage(tabFiltre);
+  }
+
+  coloriage(tabFiltre) {
+    this.diagram.model.setDataProperty(this.diagram.model.nodeDataArray[0], "color", "red");
+    console.log('mandoko');
+    this.diagram.model.commit(function (m) {
+      // alternate between lightblue and lightgreen colors
+      var oldcolor = m.modelData.color;
+      var newcolor = (oldcolor === "lightblue" ? "lightgreen" : "lightblue");
+      m.set(this.diagram.model.nodeDataArray[0], "color", newcolor);
+      // m.set(m.Gc[0], "color", newcolor);
+      // console.log(m.Gc);
+
+    }, "changed shared color");
 
   }
+
 }
