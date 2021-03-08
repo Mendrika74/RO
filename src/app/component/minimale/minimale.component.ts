@@ -18,15 +18,87 @@ export class MinimaleComponent implements OnInit {
     "class": "go.GraphLinksModel",
     "nodeKeyProperty": "id",
     "nodeDataArray": [
-      { text: "x1", id: -1, loc: "-338 -17" },
-      { text: "x2", loc: "-211 -96", id: -2 },
-      { text: "x3", loc: "-213 16", id: -3 },
-      { text: "x4", loc: "-112 79", id: -4 },
-      { text: "x5", loc: "-13 16", id: -5 },
-      { text: "x6", loc: "129 -61", id: -6 },
+  { text: "x1", id: -1, loc: "-446 -46" },
+​​
+ { text: "x2", id: -2, loc: "-314 -101" },
+​​
+ { text: "x3", id: -3, loc: "-217 87" },
+​​
+ { text: "x4", id: -4, loc: "-210 -178" },
+​​
+ { text: "x5", id: -5, loc: "-25 -204" },
+​​
+ { text: "x6", id: -6, loc: "-71 70" },
+​​
+ { text: "x7", id: -7, loc: "20 -75" },
+​​
+ { text: "x8", id: -8, loc: "176 -69" },
+​​
+ { text: "x9", id: -9, loc: "110 -169" },
+​​
+ { text: "x10", id: -10, loc: "275 -170" },
+​​
+ { text: "x11", id: -11, loc: "79 74" },
+​​
+ { text: "x12", id: -12, loc: "392 -150" },
+​​
+ { text: "x13", id: -13, loc: "279 115" },
+​​
+ { text: "x14", id: -14, loc: "551 55" },
+​​
+ { text: "x15", id: -15, loc: "534 -112" },
+​​
+ { text: "x16", id: -16, loc: "630 -45" },
+
+    /*
+      { text: "x1", id: -1, loc: "-338 -17", color: "white" },
+      { text: "x2", loc: "-211 -96", id: -2, color: "white" },
+      { text: "x3", loc: "-213 16", id: -3, color: "white" },
+      { text: "x4", loc: "-112 79", id: -4, color: "white" },
+      { text: "x5", loc: "-13 16", id: -5, color: "white" },
+      { text: "x6", loc: "129 -61", id: -6, color: "white" },*/
     ],
     "linkDataArray": [
 
+ { from: -1, to: -2, text: "10"},
+​​ { from: -2, to: -3, text: "15"},
+​​ { from: -2, to: -4, text: "8"},
+​​ { from: -4, to: -3, text: "8"},
+​​ { from: -3, to: -6, text: "1"},
+​​ { from: -4, to: -5, text: "6"},
+​​ { from: -6, to: -5, text: "5"},
+​​ { from: -6, to: -7, text: "4"},
+​​ { from: -5, to: -9, text: "1"},
+​​ { from: -7, to: -8, text: "1"},
+​​
+ { from: -8, to: -7, text: "1"},
+​​
+ { from: -9, to: -8, text: "3"},
+​​
+ { from: -8, to: -10, text: "2"},
+​​
+ { from: -9, to: -10, text: "4"},
+​​
+ { from: -6, to: -11, text: "16"},
+​​
+ { from: -7, to: -11, text: "8"},
+​​
+ { from: -10, to: -12, text: "7"},
+​​
+ { from: -11, to: -12, text: "6"},
+​​
+ { from: -11, to: -13, text: "12"},
+​​
+ { from: -13, to: -14, text: "3"},
+​​
+ { from: -12, to: -15, text: "9"},
+​​
+ { from: -15, to: -16, text: "6"},
+​​
+ { from: -14, to: -16, text: "3"},
+​​
+ { from: -15, to: -14, text: "5"}
+/*
       { from: -1, to: -2, text: "20", points: Array(8) },
       { from: -1, to: -3, text: "5", points: Array(8) },
       { from: -3, to: -4, text: "1", points: Array(8) },
@@ -34,7 +106,7 @@ export class MinimaleComponent implements OnInit {
       { from: -5, to: -6, text: "1", points: Array(8) },
       { from: -4, to: -5, points: Array(8), text: "3" },
       { from: -2, to: -6, points: Array(8), text: "4" },
-
+*/
     ]
   }
 

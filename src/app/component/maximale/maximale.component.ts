@@ -19,15 +19,87 @@ export class MaximaleComponent implements OnInit {
     "class": "go.GraphLinksModel",
     "nodeKeyProperty": "id",
     "nodeDataArray": [
+  { text: "x1", id: -1, loc: "-446 -46" },
+​​
+ { text: "x2", id: -2, loc: "-314 -101" },
+​​
+ { text: "x3", id: -3, loc: "-217 87" },
+​​
+ { text: "x4", id: -4, loc: "-210 -178" },
+​​
+ { text: "x5", id: -5, loc: "-25 -204" },
+​​
+ { text: "x6", id: -6, loc: "-71 70" },
+​​
+ { text: "x7", id: -7, loc: "20 -75" },
+​​
+ { text: "x8", id: -8, loc: "176 -69" },
+​​
+ { text: "x9", id: -9, loc: "110 -169" },
+​​
+ { text: "x10", id: -10, loc: "275 -170" },
+​​
+ { text: "x11", id: -11, loc: "79 74" },
+​​
+ { text: "x12", id: -12, loc: "392 -150" },
+​​
+ { text: "x13", id: -13, loc: "279 115" },
+​​
+ { text: "x14", id: -14, loc: "551 55" },
+​​
+ { text: "x15", id: -15, loc: "534 -112" },
+​​
+ { text: "x16", id: -16, loc: "630 -45" },
+
+    /*
       { text: "x1", id: -1, loc: "-338 -17", color: "white" },
       { text: "x2", loc: "-211 -96", id: -2, color: "white" },
       { text: "x3", loc: "-213 16", id: -3, color: "white" },
       { text: "x4", loc: "-112 79", id: -4, color: "white" },
       { text: "x5", loc: "-13 16", id: -5, color: "white" },
-      { text: "x6", loc: "129 -61", id: -6, color: "white" },
+      { text: "x6", loc: "129 -61", id: -6, color: "white" },*/
     ],
     "linkDataArray": [
 
+ { from: -1, to: -2, text: "10"},
+​​ { from: -2, to: -3, text: "15"},
+​​ { from: -2, to: -4, text: "8"},
+​​ { from: -4, to: -3, text: "8"},
+​​ { from: -3, to: -6, text: "1"},
+​​ { from: -4, to: -5, text: "6"},
+​​ { from: -6, to: -5, text: "5"},
+​​ { from: -6, to: -7, text: "4"},
+​​ { from: -5, to: -9, text: "1"},
+​​ { from: -7, to: -8, text: "1"},
+​​
+ { from: -8, to: -7, text: "1"},
+​​
+ { from: -9, to: -8, text: "3"},
+​​
+ { from: -8, to: -10, text: "2"},
+​​
+ { from: -9, to: -10, text: "4"},
+​​
+ { from: -6, to: -11, text: "16"},
+​​
+ { from: -7, to: -11, text: "8"},
+​​
+ { from: -10, to: -12, text: "7"},
+​​
+ { from: -11, to: -12, text: "6"},
+​​
+ { from: -11, to: -13, text: "12"},
+​​
+ { from: -13, to: -14, text: "3"},
+​​
+ { from: -12, to: -15, text: "9"},
+​​
+ { from: -15, to: -16, text: "6"},
+​​
+ { from: -14, to: -16, text: "3"},
+​​
+ { from: -15, to: -14, text: "5"}
+/*
       { from: -1, to: -2, text: "20", points: Array(8) },
       { from: -1, to: -3, text: "5", points: Array(8) },
       { from: -3, to: -4, text: "1", points: Array(8) },
@@ -35,7 +107,7 @@ export class MaximaleComponent implements OnInit {
       { from: -5, to: -6, text: "1", points: Array(8) },
       { from: -4, to: -5, points: Array(8), text: "3" },
       { from: -2, to: -6, points: Array(8), text: "4" },
-
+*/
     ]
   }
 
@@ -302,21 +374,20 @@ export class MaximaleComponent implements OnInit {
         )
       );
 
-    //ALL listener
+    //ALL listener 
 
     this.diagram.addDiagramListener("ObjectSingleClicked",
       function (e) {
         var part = e.subject.part;
-        if (!(part instanceof go.Link)) console.log("Clicked on ", part.data);
-        /*for (let i = 0; i < this.data_in_diagrame.length; i++) {
-          if ((this.data_in_diagrame[i].id * (-1)) < (part.data.id * (-1))) {
-            this.diagram.model.setDataProperty(this.data_in_diagrame[i], "id", i - 1);
-          }
-        }*/
-      });
+        if (!(part instanceof go.Link)) console.log("Clicked on :", part.data);
+        console.log(e);
+        // test(e.diagram, part.data);
+      }
+    );
 
     this.diagram.addModelChangedListener(function (evt) {
       // ignore unimportant Transaction events
+
       if (!evt.isTransactionFinished) return;
       var txn = evt.object;  // a Transaction
       if (txn === null) return;
@@ -331,20 +402,50 @@ export class MaximaleComponent implements OnInit {
             console.log(evt.propertyName + " changed To key of link: " +
               e.object + " from: " + e.oldValue + " to: " + e.newValue);
           }
-        } else if (e.change === go.ChangedEvent.Insert && e.modelChange === "linkDataArray") {
-          console.log(evt.propertyName + " added link: ", e.newValue);
-        } else if (e.change === go.ChangedEvent.Remove && e.modelChange === "linkDataArray") {
-
-          console.log(evt.propertyName + " removed link: ", e.oldValue);
-          console.log("okeoke");
+        } else if (e.change === go.ChangedEvent.Insert) {
+             if(e.modelChange === "linkDataArray"){
+                  console.log(evt.propertyName + " added link: ", e.newValue);
+             }else{
+                  console.log("ok");
+             }
+        } else if (e.change === go.ChangedEvent.Remove ) {
+          if(e.modelChange === "linkDataArray"){
+                 console.log(evt.propertyName + " removed link: ", e.oldValue);
+              }else if(e.modelChange === "nodeDataArray"){
+                  console.log("Node removed");
+                  
+         test(e, e.oldValue);
+              }
+          else{
+            console.log("okok");
+          }          //console.log(evt.propertyName + " removed link: ", e.oldValue);
+         // console.log("okeoke");
+         
         }
-      });
+      }); 
     });
-
+ 
 
 
     // read in the JSON data from the "mySavedModel" element
     this.load();
+
+    function test( evt, data){
+      let nodeDataArray = JSON.parse(evt.model.toJson()).nodeDataArray;
+      console.log("node Array: ", nodeDataArray);
+      for(let i=0 ; i< nodeDataArray.length; i++){
+        if((nodeDataArray[i].id*(-1)) > (data.id*(-1))){
+          var data = evt.model.findNodeDataForKey(nodeDataArray[i].id);
+          // This will NOT change the color of the "Delta" Node
+          console.log("data", data);
+          if (data !== null) evt.model.setDataProperty(data, "id",(nodeDataArray[i].id + 1));
+        }else{
+          console.log("Tsy ovaina");
+        }
+        
+      }
+    
+    }
   }
 
   // Show the diagram's model in JSON format
