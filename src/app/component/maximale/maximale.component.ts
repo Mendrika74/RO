@@ -618,7 +618,7 @@ export class MaximaleComponent implements OnInit {
     console.log(" ");
     console.log(" %c+++++ calcule recule commance +++++", 'background: #222; color: #bada55');
     lambda_first = tab[i].getLambda();
-    for (i; i >= 0; i--) {
+    for (i; i >= 0; i--) { 
       lambda = lambda_first;
       //console.log("lambda de " + i + " = " + tab[i].getLambda());     
       for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
