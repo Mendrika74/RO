@@ -269,6 +269,7 @@ export class MaximaleComponent implements OnInit {
         new go.Binding("points").makeTwoWay(),
         new go.Binding("curviness"),
         $(go.Shape,  // the link shape
+          new go.Binding("stroke", "color"),
           { strokeWidth: 1.5 },
           new go.Binding('stroke', 'progress', function (progress) {
             return progress ? "#52ce60" /* green */ : 'black';
@@ -689,6 +690,8 @@ export class MaximaleComponent implements OnInit {
   }
 
   coloriage(lalana_miverina) {
+    console.log(lalana_miverina);
+
     for (let i = 0; i < lalana_miverina.length; i++) {
 
       var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].to * (-1));
@@ -700,6 +703,21 @@ export class MaximaleComponent implements OnInit {
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
       if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+
+      //change color arc
+      for (let j = 0; j < this.data.linkDataArray.length; j++) {
+        console.log(lalana_miverina[i].from + " " + this.data.linkDataArray[j].from);
+        if (lalana_miverina[i].to == (this.data.linkDataArray[j].from * (-1)) && lalana_miverina[i].from == (this.data.linkDataArray[j].to * (-1))) {
+          this.diagram.model.commit(function (m) {
+            m.set(m.linkDataArray[j], "color", "red");
+          });
+          // console.log("lalan");
+        } else {
+          // console.log("tsy lalan");
+
+        }
+
+      }
     }
     console.log("lalana miverina" + lalana_miverina);
   }
