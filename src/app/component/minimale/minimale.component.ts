@@ -619,20 +619,23 @@ export class MinimaleComponent implements OnInit {
       var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].to * (-1));
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
-      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "green");
 
       var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].from * (-1));
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
-      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "green");
 
       //change color arc
       for (let j = 0; j < this.data.linkDataArray.length; j++) {
         console.log(lalana_miverina[i].from + " " + this.data.linkDataArray[j].from);
         if (lalana_miverina[i].to == (this.data.linkDataArray[j].from * (-1)) && lalana_miverina[i].from == (this.data.linkDataArray[j].to * (-1))) {
-          this.diagram.model.commit(function (m) {
-            m.set(m.linkDataArray[j], "color", "red");
-          });
+
+          this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "green");
+          /*
+        this.diagram.model.setDataProperty(this.data.linkDataArray[1], "color", "green"); this.diagram.commit((m) => {
+          m.model.set(m.model.linkDataArray[j], "color", "green");
+        });*/
           console.log("lalan");
         } else {
           console.log("tsy lalan");
@@ -640,6 +643,9 @@ export class MinimaleComponent implements OnInit {
         }
 
       }
+
+
+
     }
 
 

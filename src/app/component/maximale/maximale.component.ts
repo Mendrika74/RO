@@ -130,7 +130,7 @@ export class MaximaleComponent implements OnInit {
           click: function (e, obj) { console.log("Clicked on " + obj.part.data.id); },
           selectionChanged: function (part) {
             var shape = part.elt(0);
-            shape.fill = part.isSelected ? "#ffaaaa" : "white";
+            shape.fill = part.isSelected ? "#aa44bb" : "white";
           }
         },
         $("TreeExpanderButton",
@@ -308,6 +308,11 @@ export class MaximaleComponent implements OnInit {
       function (e) {
         var part = e.subject.part;
         if (!(part instanceof go.Link)) console.log("Clicked on ", part.data);
+        /*for (let i = 0; i < this.data_in_diagrame.length; i++) {
+          if ((this.data_in_diagrame[i].id * (-1)) < (part.data.id * (-1))) {
+            this.diagram.model.setDataProperty(this.data_in_diagrame[i], "id", i - 1);
+          }
+        }*/
       });
 
     this.diagram.addModelChangedListener(function (evt) {
@@ -327,9 +332,11 @@ export class MaximaleComponent implements OnInit {
               e.object + " from: " + e.oldValue + " to: " + e.newValue);
           }
         } else if (e.change === go.ChangedEvent.Insert && e.modelChange === "linkDataArray") {
-          console.log(evt.propertyName + " added link: " + e.newValue);
+          console.log(evt.propertyName + " added link: ", e.newValue);
         } else if (e.change === go.ChangedEvent.Remove && e.modelChange === "linkDataArray") {
-          console.log(evt.propertyName + " removed link: " + e.oldValue);
+
+          console.log(evt.propertyName + " removed link: ", e.oldValue);
+          console.log("okeoke");
         }
       });
     });
@@ -564,7 +571,7 @@ export class MaximaleComponent implements OnInit {
       var data = this.diagram.model.findNodeDataForKey("-4");
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
-       if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+       if (data !== null) this.diagram.model.setDataProperty(data, "color", "green");
   
       let taille: number = tab.length;
       let lambda: number;
@@ -697,20 +704,22 @@ export class MaximaleComponent implements OnInit {
       var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].to * (-1));
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
-      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "green");
 
       var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].from * (-1));
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
-      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "green");
 
       //change color arc
       for (let j = 0; j < this.data.linkDataArray.length; j++) {
         console.log(lalana_miverina[i].from + " " + this.data.linkDataArray[j].from);
         if (lalana_miverina[i].to == (this.data.linkDataArray[j].from * (-1)) && lalana_miverina[i].from == (this.data.linkDataArray[j].to * (-1))) {
-          this.diagram.model.commit(function (m) {
-            m.set(m.linkDataArray[j], "color", "red");
-          });
+          this.diagram.model.setDataProperty(this.data.linkDataArray[j], "progress", "true");
+          /* this.diagram.model.commit(function (m) {
+            m.set(m.linkDataArray[j], "color", "green");
+          });*/
+
           // console.log("lalan");
         } else {
           // console.log("tsy lalan");
@@ -721,4 +730,7 @@ export class MaximaleComponent implements OnInit {
     }
     console.log("lalana miverina" + lalana_miverina);
   }
+
+
+
 }
