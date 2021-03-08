@@ -198,7 +198,9 @@ export class MinimaleComponent implements OnInit {
 
         new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         // define the node's outer shape, which will surround the TextBlock
-        $(go.Shape, "Circle", roundedRectangleParams,
+        $(go.Shape, "Circle",
+          new go.Binding("fill", "color"),
+          roundedRectangleParams,
           new go.Binding("fill", "color").ofModel(),  // meaning a property of Model.modelData
           {
             name: "SHAPE", fill: "#ffffff", strokeWidth: 0,
@@ -349,7 +351,8 @@ export class MinimaleComponent implements OnInit {
         },
         new go.Binding("points").makeTwoWay(),
         new go.Binding("curviness"),
-        $(go.Shape,  // the link shape
+        $(go.Shape,
+          new go.Binding("stroke", "color"),  // shape.stroke = data.color // the link shape
           { strokeWidth: 1.5 },
           new go.Binding('stroke', 'progress', function (progress) {
             return progress ? "#52ce60" /* green */ : 'black';
@@ -584,7 +587,8 @@ export class MinimaleComponent implements OnInit {
       //console.log("tour : " + i);
     }
     console.log(lalana_miverina);
-    this.delNoTo(lalana_miverina);
+    // this.delNoTo(lalana_miverina);
+    this.coloriage(lalana_miverina);
   }
 
   delNoTo(lalana_miverina) {
@@ -608,19 +612,40 @@ export class MinimaleComponent implements OnInit {
     // this.coloriage(tabFiltre);
   }
 
-  coloriage(tabFiltre) {
-    this.diagram.model.setDataProperty(this.diagram.model.nodeDataArray[0], "color", "red");
-    console.log('mandoko');
-    this.diagram.model.commit(function (m) {
-      // alternate between lightblue and lightgreen colors
-      var oldcolor = m.modelData.color;
-      var newcolor = (oldcolor === "lightblue" ? "lightgreen" : "lightblue");
-      m.set(this.diagram.model.nodeDataArray[0], "color", newcolor);
-      // m.set(m.Gc[0], "color", newcolor);
-      // console.log(m.Gc);
+  coloriage(lalana_miverina) {
+    console.log(lalana_miverina);
 
-    }, "changed shared color");
+    for (let i = 0; i < lalana_miverina.length; i++) {
+      var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].to * (-1));
+      // This will NOT change the color of the "Delta" Node
+      console.log("data", data);
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
 
+      var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].from * (-1));
+      // This will NOT change the color of the "Delta" Node
+      console.log("data", data);
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+
+      //change color arc
+      for (let j = 0; j < this.data.linkDataArray.length; j++) {
+        console.log(lalana_miverina[i].from + " " + this.data.linkDataArray[j].from);
+        if (lalana_miverina[i].to == (this.data.linkDataArray[j].from * (-1)) && lalana_miverina[i].from == (this.data.linkDataArray[j].to * (-1))) {
+          this.diagram.model.commit(function (m) {
+            m.set(m.linkDataArray[j], "color", "red");
+          });
+          console.log("lalan");
+        } else {
+          console.log("tsy lalan");
+
+        }
+
+      }
+    }
+
+
+
+
+    console.log("lalana miverina" + lalana_miverina);
   }
 
 
