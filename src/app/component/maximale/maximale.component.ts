@@ -19,11 +19,11 @@ export class MaximaleComponent implements OnInit {
     "class": "go.GraphLinksModel",
     "nodeKeyProperty": "id",
     "nodeDataArray": [
-      { text: "x1", id: -1, loc: "-338 -17" , color: "white"},
+      { text: "x1", id: -1, loc: "-338 -17", color: "white" },
       { text: "x2", loc: "-211 -96", id: -2, color: "white" },
-      { text: "x3", loc: "-213 16", id: -3 , color: "white"},
+      { text: "x3", loc: "-213 16", id: -3, color: "white" },
       { text: "x4", loc: "-112 79", id: -4, color: "white" },
-      { text: "x5", loc: "-13 16", id: -5 , color: "white"},
+      { text: "x5", loc: "-13 16", id: -5, color: "white" },
       { text: "x6", loc: "129 -61", id: -6, color: "white" },
     ],
     "linkDataArray": [
@@ -127,12 +127,12 @@ export class MaximaleComponent implements OnInit {
           },
           new go.Binding("text").makeTwoWay()),
         {
-        click: function(e, obj) { console.log("Clicked on " + obj.part.data.id); },
-        selectionChanged: function(part) {
+          click: function (e, obj) { console.log("Clicked on " + obj.part.data.id); },
+          selectionChanged: function (part) {
             var shape = part.elt(0);
             shape.fill = part.isSelected ? "#ffaaaa" : "white";
           }
-      },
+        },
         $("TreeExpanderButton",
           {
             // set the two additional properties used by "TreeExpanderButton"
@@ -301,37 +301,37 @@ export class MaximaleComponent implements OnInit {
         )
       );
 
-      //ALL listener
+    //ALL listener
 
-       this.diagram.addDiagramListener("ObjectSingleClicked",
-      function(e) {
+    this.diagram.addDiagramListener("ObjectSingleClicked",
+      function (e) {
         var part = e.subject.part;
-        if (!(part instanceof go.Link)) console.log("Clicked on " , part.data);
+        if (!(part instanceof go.Link)) console.log("Clicked on ", part.data);
       });
 
-      this.diagram.addModelChangedListener(function(evt) {
-    // ignore unimportant Transaction events
-    if (!evt.isTransactionFinished) return;
-    var txn = evt.object;  // a Transaction
-    if (txn === null) return;
-    // iterate over all of the actual ChangedEvents of the Transaction
-    txn.changes.each(function(e) {
-      // record node insertions and removals
-      if (e.change === go.ChangedEvent.Property) {
-        if (e.modelChange === "linkFromKey") {
-          console.log(evt.propertyName + " changed From key of link: " +
-                      e.object + " from: " + e.oldValue + " to: " + e.newValue);
-        } else if (e.modelChange === "linkToKey") {
-          console.log(evt.propertyName + " changed To key of link: " +
-                      e.object + " from: " + e.oldValue + " to: " + e.newValue);
+    this.diagram.addModelChangedListener(function (evt) {
+      // ignore unimportant Transaction events
+      if (!evt.isTransactionFinished) return;
+      var txn = evt.object;  // a Transaction
+      if (txn === null) return;
+      // iterate over all of the actual ChangedEvents of the Transaction
+      txn.changes.each(function (e) {
+        // record node insertions and removals
+        if (e.change === go.ChangedEvent.Property) {
+          if (e.modelChange === "linkFromKey") {
+            console.log(evt.propertyName + " changed From key of link: " +
+              e.object + " from: " + e.oldValue + " to: " + e.newValue);
+          } else if (e.modelChange === "linkToKey") {
+            console.log(evt.propertyName + " changed To key of link: " +
+              e.object + " from: " + e.oldValue + " to: " + e.newValue);
+          }
+        } else if (e.change === go.ChangedEvent.Insert && e.modelChange === "linkDataArray") {
+          console.log(evt.propertyName + " added link: " + e.newValue);
+        } else if (e.change === go.ChangedEvent.Remove && e.modelChange === "linkDataArray") {
+          console.log(evt.propertyName + " removed link: " + e.oldValue);
         }
-      } else if (e.change === go.ChangedEvent.Insert && e.modelChange === "linkDataArray") {
-        console.log(evt.propertyName + " added link: " + e.newValue);
-      } else if (e.change === go.ChangedEvent.Remove && e.modelChange === "linkDataArray") {
-        console.log(evt.propertyName + " removed link: " + e.oldValue);
-      }
+      });
     });
-  });
 
 
 
@@ -356,7 +356,7 @@ export class MaximaleComponent implements OnInit {
     this.diagram.grid.visible = true;
   }
 
- 
+
 
 
   createTab() {/*
@@ -557,56 +557,52 @@ export class MaximaleComponent implements OnInit {
     this.minFord(tab);
     this.findPath(tab);
   }
-/*
-  findPath(tab) {
-
-    var data = this.diagram.model.findNodeDataForKey("-4");
-    // This will NOT change the color of the "Delta" Node
-    console.log("data", data);
-     if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
-
-    let taille: number = tab.length;
-    let lambda: number;
-    let lambda_j: number;
-    let res_: number;
-    let stop: boolean = false;
-    let i: number = taille - 1;
-    let lalana_miverina = new Array();
-    console.log(" ");
-    console.log(" %c+++++ calcule recule commance +++++", 'background: #222; color: #bada55');
-    for (i; i >= 0; i--) {
-      //console.log("lambda de " + i + " = " + tab[i].getLambda());
-      for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
-        if ((i + 1) == this.data_in_diagrame.linkDataArray[j].to * (-1)) {
-          console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
-          lambda = tab[i].getLambda();
-          res_ = lambda - parseInt(this.data_in_diagrame.linkDataArray[j].text);
-          console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
-          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda() && j != 0) {
-            lalana_miverina.push({ to: this.data_in_diagrame.linkDataArray[j].from * (-1), from: (i + 1) });
-            console.log(" %casina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
-            //console.log("lambda de " + i + " = " + tab[i].getLambda());
-            console.log("************************");
-
-          } else {
-            console.log("tsy lalana");
+  /*
+    findPath(tab) {
+  
+      var data = this.diagram.model.findNodeDataForKey("-4");
+      // This will NOT change the color of the "Delta" Node
+      console.log("data", data);
+       if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+  
+      let taille: number = tab.length;
+      let lambda: number;
+      let lambda_j: number;
+      let res_: number;
+      let stop: boolean = false;
+      let i: number = taille - 1;
+      let lalana_miverina = new Array();
+      console.log(" ");
+      console.log(" %c+++++ calcule recule commance +++++", 'background: #222; color: #bada55');
+      for (i; i >= 0; i--) {
+        //console.log("lambda de " + i + " = " + tab[i].getLambda());
+        for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
+          if ((i + 1) == this.data_in_diagrame.linkDataArray[j].to * (-1)) {
+            console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
+            lambda = tab[i].getLambda();
+            res_ = lambda - parseInt(this.data_in_diagrame.linkDataArray[j].text);
+            console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
+            if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda() && j != 0) {
+              lalana_miverina.push({ to: this.data_in_diagrame.linkDataArray[j].from * (-1), from: (i + 1) });
+              console.log(" %casina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
+              //console.log("lambda de " + i + " = " + tab[i].getLambda());
+              console.log("************************");
+  
+            } else {
+              console.log("tsy lalana");
+            }
           }
         }
+        console.log("+++++++++ tour =  " + i + " +++++");
+        console.log(" ");
+        //console.log("tour : " + i);
       }
-      console.log("+++++++++ tour =  " + i + " +++++");
-      console.log(" ");
-      //console.log("tour : " + i);
-    }
-    console.log(lalana_miverina);
-    this.delNoTo(lalana_miverina);
-  }*/
+      console.log(lalana_miverina);
+      this.delNoTo(lalana_miverina);
+    }*/
 
   findPath(tab) {
-    
-    var data = this.diagram.model.findNodeDataForKey("-4");
-    // This will NOT change the color of the "Delta" Node
-    console.log("data", data);
-     if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+
 
     let taille: number = tab.length;
     let lambda: number;
@@ -643,8 +639,9 @@ export class MaximaleComponent implements OnInit {
       console.log(" ");
       //console.log("tour : " + i);
     }
-    console.log(lalana_miverina);
-    this.delNoTo(lalana_miverina);
+    // console.log("lalana miverina" + lalana_miverina);
+    // this.delNoTo(lalana_miverina);
+    this.coloriage(lalana_miverina);
   }
 
 
@@ -691,19 +688,19 @@ export class MaximaleComponent implements OnInit {
     //this.coloriage(tabFiltre);
   }
 
-  coloriage(tabFiltre) {
-    this.diagram.model.setDataProperty(this.diagram.model.nodeDataArray[0], "color", "red");
-    console.log('mandoko');
-    this.diagram.model.commit(function (m) {
-      // alternate between lightblue and lightgreen colors
-      var oldcolor = m.modelData.color;
-      var newcolor = (oldcolor === "lightblue" ? "lightgreen" : "lightblue");
-      m.set(this.diagram.model.nodeDataArray[0], "color", newcolor);
-      // m.set(m.Gc[0], "color", newcolor);
-      // console.log(m.Gc);
+  coloriage(lalana_miverina) {
+    for (let i = 0; i < lalana_miverina.length; i++) {
 
-    }, "changed shared color");
+      var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].to * (-1));
+      // This will NOT change the color of the "Delta" Node
+      console.log("data", data);
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
 
+      var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].from * (-1));
+      // This will NOT change the color of the "Delta" Node
+      console.log("data", data);
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+    }
+    console.log("lalana miverina" + lalana_miverina);
   }
-
 }

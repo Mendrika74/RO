@@ -198,7 +198,9 @@ export class MinimaleComponent implements OnInit {
 
         new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         // define the node's outer shape, which will surround the TextBlock
-        $(go.Shape, "Circle", roundedRectangleParams,
+        $(go.Shape, "Circle",
+          new go.Binding("fill", "color"),
+          roundedRectangleParams,
           new go.Binding("fill", "color").ofModel(),  // meaning a property of Model.modelData
           {
             name: "SHAPE", fill: "#ffffff", strokeWidth: 0,
@@ -349,7 +351,8 @@ export class MinimaleComponent implements OnInit {
         },
         new go.Binding("points").makeTwoWay(),
         new go.Binding("curviness"),
-        $(go.Shape,  // the link shape
+        $(go.Shape,
+          new go.Binding("stroke", "color"),  // shape.stroke = data.color // the link shape
           { strokeWidth: 1.5 },
           new go.Binding('stroke', 'progress', function (progress) {
             return progress ? "#52ce60" /* green */ : 'black';
@@ -584,7 +587,8 @@ export class MinimaleComponent implements OnInit {
       //console.log("tour : " + i);
     }
     console.log(lalana_miverina);
-    this.delNoTo(lalana_miverina);
+    // this.delNoTo(lalana_miverina);
+    this.coloriage(lalana_miverina);
   }
 
   delNoTo(lalana_miverina) {
@@ -608,19 +612,26 @@ export class MinimaleComponent implements OnInit {
     // this.coloriage(tabFiltre);
   }
 
-  coloriage(tabFiltre) {
-    this.diagram.model.setDataProperty(this.diagram.model.nodeDataArray[0], "color", "red");
-    console.log('mandoko');
+  coloriage(lalana_miverina) {
+    for (let i = 0; i < lalana_miverina.length; i++) {
+
+      var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].to * (-1));
+      // This will NOT change the color of the "Delta" Node
+      console.log("data", data);
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+
+      var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].from * (-1));
+      // This will NOT change the color of the "Delta" Node
+      console.log("data", data);
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "red");
+    }
+
     this.diagram.model.commit(function (m) {
-      // alternate between lightblue and lightgreen colors
-      var oldcolor = m.modelData.color;
-      var newcolor = (oldcolor === "lightblue" ? "lightgreen" : "lightblue");
-      m.set(this.diagram.model.nodeDataArray[0], "color", newcolor);
-      // m.set(m.Gc[0], "color", newcolor);
-      // console.log(m.Gc);
+      m.set(m.linkDataArray[1], "color", "red");
+    });
 
-    }, "changed shared color");
 
+    console.log("lalana miverina" + lalana_miverina);
   }
 
 
