@@ -18,95 +18,95 @@ export class MinimaleComponent implements OnInit {
     "class": "go.GraphLinksModel",
     "nodeKeyProperty": "id",
     "nodeDataArray": [
-  { text: "x1", id: -1, loc: "-446 -46" },
-​​
- { text: "x2", id: -2, loc: "-314 -101" },
-​​
- { text: "x3", id: -3, loc: "-217 87" },
-​​
- { text: "x4", id: -4, loc: "-210 -178" },
-​​
- { text: "x5", id: -5, loc: "-25 -204" },
-​​
- { text: "x6", id: -6, loc: "-71 70" },
-​​
- { text: "x7", id: -7, loc: "20 -75" },
-​​
- { text: "x8", id: -8, loc: "176 -69" },
-​​
- { text: "x9", id: -9, loc: "110 -169" },
-​​
- { text: "x10", id: -10, loc: "275 -170" },
-​​
- { text: "x11", id: -11, loc: "79 74" },
-​​
- { text: "x12", id: -12, loc: "392 -150" },
-​​
- { text: "x13", id: -13, loc: "279 115" },
-​​
- { text: "x14", id: -14, loc: "551 55" },
-​​
- { text: "x15", id: -15, loc: "534 -112" },
-​​
- { text: "x16", id: -16, loc: "630 -45" },
+      { text: "x1", id: -1, loc: "-446 -46" },
 
-    /*
-      { text: "x1", id: -1, loc: "-338 -17", color: "white" },
-      { text: "x2", loc: "-211 -96", id: -2, color: "white" },
-      { text: "x3", loc: "-213 16", id: -3, color: "white" },
-      { text: "x4", loc: "-112 79", id: -4, color: "white" },
-      { text: "x5", loc: "-13 16", id: -5, color: "white" },
-      { text: "x6", loc: "129 -61", id: -6, color: "white" },*/
+      { text: "x2", id: -2, loc: "-314 -101" },
+
+      { text: "x3", id: -3, loc: "-217 87" },
+
+      { text: "x4", id: -4, loc: "-210 -178" },
+
+      { text: "x5", id: -5, loc: "-25 -204" },
+
+      { text: "x6", id: -6, loc: "-71 70" },
+
+      { text: "x7", id: -7, loc: "20 -75" },
+
+      { text: "x8", id: -8, loc: "176 -69" },
+
+      { text: "x9", id: -9, loc: "110 -169" },
+
+      { text: "x10", id: -10, loc: "275 -170" },
+
+      { text: "x11", id: -11, loc: "79 74" },
+
+      { text: "x12", id: -12, loc: "392 -150" },
+
+      { text: "x13", id: -13, loc: "279 115" },
+
+      { text: "x14", id: -14, loc: "551 55" },
+
+      { text: "x15", id: -15, loc: "534 -112" },
+
+      { text: "x16", id: -16, loc: "630 -45" },
+
+      /*
+        { text: "x1", id: -1, loc: "-338 -17", color: "white" },
+        { text: "x2", loc: "-211 -96", id: -2, color: "white" },
+        { text: "x3", loc: "-213 16", id: -3, color: "white" },
+        { text: "x4", loc: "-112 79", id: -4, color: "white" },
+        { text: "x5", loc: "-13 16", id: -5, color: "white" },
+        { text: "x6", loc: "129 -61", id: -6, color: "white" },*/
     ],
     "linkDataArray": [
 
- { from: -1, to: -2, text: "10"},
-​​ { from: -2, to: -3, text: "15"},
-​​ { from: -2, to: -4, text: "8"},
-​​ { from: -4, to: -3, text: "8"},
-​​ { from: -3, to: -6, text: "1"},
-​​ { from: -4, to: -5, text: "6"},
-​​ { from: -6, to: -5, text: "5"},
-​​ { from: -6, to: -7, text: "4"},
-​​ { from: -5, to: -9, text: "1"},
-​​ { from: -7, to: -8, text: "1"},
-​​
- { from: -8, to: -7, text: "1"},
-​​
- { from: -9, to: -8, text: "3"},
-​​
- { from: -8, to: -10, text: "2"},
-​​
- { from: -9, to: -10, text: "4"},
-​​
- { from: -6, to: -11, text: "16"},
-​​
- { from: -7, to: -11, text: "8"},
-​​
- { from: -10, to: -12, text: "7"},
-​​
- { from: -11, to: -12, text: "6"},
-​​
- { from: -11, to: -13, text: "12"},
-​​
- { from: -13, to: -14, text: "3"},
-​​
- { from: -12, to: -15, text: "9"},
-​​
- { from: -15, to: -16, text: "6"},
-​​
- { from: -14, to: -16, text: "3"},
-​​
- { from: -15, to: -14, text: "5"}
-/*
-      { from: -1, to: -2, text: "20", points: Array(8) },
-      { from: -1, to: -3, text: "5", points: Array(8) },
-      { from: -3, to: -4, text: "1", points: Array(8) },
-      { from: -3, to: -5, text: "4", points: Array(8) },
-      { from: -5, to: -6, text: "1", points: Array(8) },
-      { from: -4, to: -5, points: Array(8), text: "3" },
-      { from: -2, to: -6, points: Array(8), text: "4" },
-*/
+      { from: -1, to: -2, text: "10" },
+      { from: -2, to: -3, text: "15" },
+      { from: -2, to: -4, text: "8" },
+      { from: -4, to: -3, text: "8" },
+      { from: -3, to: -6, text: "1" },
+      { from: -4, to: -5, text: "6" },
+      { from: -6, to: -5, text: "5" },
+      { from: -6, to: -7, text: "4" },
+      { from: -5, to: -9, text: "1" },
+      { from: -7, to: -8, text: "1" },
+
+      // { from: -8, to: -7, text: "1" },
+
+      { from: -9, to: -8, text: "3" },
+
+      { from: -8, to: -10, text: "2" },
+
+      { from: -9, to: -10, text: "4" },
+
+      { from: -3, to: -11, text: "16" },
+
+      { from: -7, to: -11, text: "8" },
+
+      { from: -10, to: -12, text: "7" },
+
+      { from: -11, to: -12, text: "6" },
+
+      { from: -11, to: -13, text: "12" },
+
+      { from: -13, to: -14, text: "3" },
+
+      { from: -12, to: -15, text: "9" },
+
+      { from: -15, to: -16, text: "6" },
+
+      { from: -14, to: -16, text: "3" },
+
+      { from: -15, to: -14, text: "5" }
+      /*
+            { from: -1, to: -2, text: "20", points: Array(8) },
+            { from: -1, to: -3, text: "5", points: Array(8) },
+            { from: -3, to: -4, text: "1", points: Array(8) },
+            { from: -3, to: -5, text: "4", points: Array(8) },
+            { from: -5, to: -6, text: "1", points: Array(8) },
+            { from: -4, to: -5, points: Array(8), text: "3" },
+            { from: -2, to: -6, points: Array(8), text: "4" },
+      */
     ]
   }
 
@@ -120,27 +120,27 @@ export class MinimaleComponent implements OnInit {
 
 
   data_in_diagrame: any = [];
+  /*
+    x16: Sommet;
+    x15: Sommet;
+    x14: Sommet;
+    x13: Sommet;
+    x12: Sommet;
+    x11: Sommet;
+    x10: Sommet;
+    x9: Sommet;
+    x8: Sommet;
+    x7: Sommet;
+    x6: Sommet;
+    x5: Sommet;
+    x4: Sommet;
+    x3: Sommet;
+    x2: Sommet;
+    x1: Sommet;
+  */
 
-  x16: Sommet;
-  x15: Sommet;
-  x14: Sommet;
-  x13: Sommet;
-  x12: Sommet;
-  x11: Sommet;
-  x10: Sommet;
-  x9: Sommet;
-  x8: Sommet;
-  x7: Sommet;
-  x6: Sommet;
-  x5: Sommet;
-  x4: Sommet;
-  x3: Sommet;
-  x2: Sommet;
-  x1: Sommet;
 
-
-
-  constructor() {
+  constructor() {/*
     this.x16 = new Sommet(0, 15);
     this.x16.addIndex_succ(0); this.x16.addArc(0);
 
@@ -213,7 +213,7 @@ export class MinimaleComponent implements OnInit {
     this.tab.push(this.x13);
     this.tab.push(this.x14);
     this.tab.push(this.x15);
-    this.tab.push(this.x16);
+    this.tab.push(this.x16);*/
   }
 
   ngOnInit(): void {
@@ -479,64 +479,6 @@ export class MinimaleComponent implements OnInit {
     this.diagram.grid.visible = true;
   }
 
-
-
-
-  minFord() {
-    let current: number = 0;
-    let compte: number = 0;
-    let next: number;
-    let sub: number;
-    let pos_i: number;
-    let pos_j: number;
-    let demitour: boolean = false;
-    while (compte < this.tab.length - 1) {
-      if (demitour) {
-        current = pos_i;
-      } else {
-        pos_i = this.tab[current].getPosi();
-      }
-      for (let sous_cp = 0; sous_cp < this.tab[current].getIndex_succ().length; sous_cp++) {
-        let res: number;
-        //next = Integer.parseInt(tab.get(current).getIndex_succ().get(sous_cp).toString());
-        pos_j = parseInt(this.tab[current].getIndex_succ()[sous_cp]);
-        sub = this.tab[pos_j].getLambda() - this.tab[current].getLambda();
-        if (pos_i < pos_j) {
-          if (sub > parseInt(this.tab[current].getArc()[sous_cp])) {
-            res = this.tab[current].getLambda() + parseInt(this.tab[current].getArc()[sous_cp]);
-            this.tab[pos_j].setLambda(res);
-            console.log("*******************IF****************");
-            console.log("I : " + pos_i);
-            console.log("J  : " + pos_j);
-            console.log(this.tab[current].getLambda() + " + " + this.tab[current].getArc()[sous_cp] + " = " + res);
-            demitour = false;
-          }
-        }
-        else {
-          if (sub <= parseInt(this.tab[current].getArc()[sous_cp]) || sub == parseInt(this.tab[current].getArc()[sous_cp])) {
-            console.log("****************NOTHING*******************");
-            demitour = false;
-          } else {
-            res = this.tab[current].getLambda() + parseInt(this.tab[current].getArc()[sous_cp]);
-            this.tab[pos_j].setLambda(res);
-            pos_i = pos_j;
-            demitour = true;
-
-            console.log("*************ELSE**********************");
-            console.log("I : " + pos_i);
-            console.log("J  : " + pos_j);
-            console.log(this.tab[current].getLambda() + " + " + this.tab[current].getArc()[sous_cp] + " = " + res);
-            compte = pos_i - 1;
-            break;
-          }
-        }
-      }
-      compte++;
-      current++;
-    }
-  }
-
-
   maxFord(tab) {
     let current: number = 0;
     let compte: number = 0;
@@ -568,7 +510,7 @@ export class MinimaleComponent implements OnInit {
           }
         }
         else {
-          if (sub >= parseInt(tab[current].getArc()[sous_cp]) || sub == parseInt(tab[current].getArc()[sous_cp])) {
+          if (sub > parseInt(tab[current].getArc()[sous_cp]) || sub == parseInt(tab[current].getArc()[sous_cp])) {
             console.log("****************NOTHING*******************");
             demitour = false;
           } else {
@@ -589,6 +531,8 @@ export class MinimaleComponent implements OnInit {
       compte++;
       current++;
     }
+    console.log("lambda farany ", tab);
+
   }
 
   algoFusion() {
@@ -623,45 +567,109 @@ export class MinimaleComponent implements OnInit {
   }
 
   findPath(tab) {
+    let taille: number = tab.length - 1;
+    let lambda_current: number;
+    let lambda_last: number;
+    let res_: number;
+    let i: number = taille;
+    let lalana_miverina = new Array();
+    //lambda_last = tab[i].getLambda();
+
+    for (i; i >= 0; i--) {
+      lambda_current = tab[i].getLambda();
+      for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
+        //lambda_current = lambda_last;
+        if ((i + 1) == ((this.data_in_diagrame.linkDataArray[j].to * (-1)))) {
+          console.log("%c ity : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " makaty " + (i + 1), 'background : yellow;');
+          res_ = lambda_current - parseInt(this.data_in_diagrame.linkDataArray[j].text);
+          if (res_ == tab[((this.data_in_diagrame.linkDataArray[j].from * (-1)) - 1)].getLambda()) {
+            lalana_miverina.push({ to: this.data_in_diagrame.linkDataArray[j].from * (-1), from: (i + 1) });
+            console.log(" %c asina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
+            // lambda_last = tab[((this.data_in_diagrame.linkDataArray[j].from * (-1)) - 1)].getLambda();
+          } else {
+            console.log("%c tsy lalana", 'background: red;');
+            //lambda_last = lambda_current;
+          }
+        }
+
+      }
+    }
+    //this.coloriage(lalana_miverina);
+    this.treatNoEnd(lalana_miverina);
+  }
+
+  treatNoEnd(lalana_miverina) {
+    console.log(lalana_miverina);
+    console.log("triage");
+    let lalana_ = new Array();
+    let from: number;
+    let to: number;
+    to = lalana_miverina[0].from; //16
+    from = lalana_miverina[0].to; //14
+    for (let i = 0; i < lalana_miverina.length; i++) {
+      //console.log(to);          
+      for (let j = 0; j < lalana_miverina.length; j++) {
+        if (from == lalana_miverina[j].from) {
+          //console.log("%c nampiditra ity : " + from + "  makary : " + to, 'background: green;');
+          lalana_.push({ to: from, from: to });
+          //console.log("%c " + from, 'background: red;');
+          from = lalana_miverina[j].to;
+          to = lalana_miverina[j].from;
+          if (from == 1) {
+            lalana_.push({ to: from, from: to });
+          }
+        }
+      }
+    }
+    this.coloriage(lalana_);
+  }
+
+  /*findPath(tab) {
     let taille: number = tab.length;
     let lambda: number;
     let lambda_first: number;
     let res_: number;
-    let stop: boolean = false;
     let i: number = taille - 1;
+    let k: number;
+    let demitour: boolean = false;
+    let last_sommet_visited: Sommet;
+    let last_sommet: Sommet;
     let lalana_miverina = new Array();
     console.log(" ");
     console.log(" %c+++++ calcule recule commance +++++", 'background: #222; color: #bada55');
     lambda_first = tab[i].getLambda();
+    last_sommet = tab[i];
     for (i; i >= 0; i--) {
-      //console.log("lambda de " + i + " = " + tab[i].getLambda());   
+      //console.log("lambda de " + i + " = " + tab[i].getLambda());             
       lambda = lambda_first;
+      last_sommet_visited = last_sommet;
       for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
+       // console.log("%c indice tab " + i, 'background: pink; color: white');
         if ((i + 1) == this.data_in_diagrame.linkDataArray[j].to * (-1)) {
-          console.log("from : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1));
+          console.log("%c  from : " + (this.data_in_diagrame.linkDataArray[j].from * (-1) - 1) + " to : " + (i + 1), 'background: blue; color: #bada55');
           res_ = lambda - parseInt(this.data_in_diagrame.linkDataArray[j].text);
-          console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
-          if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda()) {
-            lambda_first = tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda();
-            console.log("lambda first " + lambda_first);
-
-            lalana_miverina.push({ to: this.data_in_diagrame.linkDataArray[j].from * (-1), from: (i + 1) });
-            console.log(" %casina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
-            //console.log("lambda de " + i + " = " + tab[i].getLambda());
-            console.log("************************");
-          } else {
-            console.log("tsy lalana");
-          }
+          //console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
+          console.log("%c  from : " + (this.data_in_diagrame.linkDataArray[j].from * (-1) - 1) + " to : " + (i + 1), 'background: blue; color: #bada55');
+            if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda()) {
+              lambda_first = tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda();
+              lalana_miverina.push({ to: this.data_in_diagrame.linkDataArray[j].from * (-1), from: (i + 1) });
+              console.log(" %c asina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
+              //console.log("lambda de " + i + " = " + tab[i].getLambda());
+              console.log("************************");
+            } else {
+              console.log("tsy lalana");
+            }
         }
       }
-      console.log("+++++++++ tour =  " + i + " +++++");
+      //console.log("+++++++++ tour =  " + i + " +++++");
       console.log(" ");
       //console.log("tour : " + i);
+      last_sommet = tab[i];
     }
     console.log(lalana_miverina);
     // this.delNoTo(lalana_miverina);
     this.coloriage(lalana_miverina);
-  }
+  }*/
 
   delNoTo(lalana_miverina) {
     let tabFiltre = new Array();
@@ -688,6 +696,7 @@ export class MinimaleComponent implements OnInit {
     console.log(lalana_miverina);
 
     for (let i = 0; i < lalana_miverina.length; i++) {
+
       var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].to * (-1));
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
@@ -702,29 +711,22 @@ export class MinimaleComponent implements OnInit {
       for (let j = 0; j < this.data.linkDataArray.length; j++) {
         console.log(lalana_miverina[i].from + " " + this.data.linkDataArray[j].from);
         if (lalana_miverina[i].to == (this.data.linkDataArray[j].from * (-1)) && lalana_miverina[i].from == (this.data.linkDataArray[j].to * (-1))) {
+          this.diagram.model.setDataProperty(this.data.linkDataArray[j], "progress", "true");
+          /* this.diagram.model.commit(function (m) {
+            m.set(m.linkDataArray[j], "color", "green");
+          });*/
 
-          this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "green");
-          /*
-        this.diagram.model.setDataProperty(this.data.linkDataArray[1], "color", "green"); this.diagram.commit((m) => {
-          m.model.set(m.model.linkDataArray[j], "color", "green");
-        });*/
-          console.log("lalan");
+          // console.log("lalan");
         } else {
-          console.log("tsy lalan");
+          // console.log("tsy lalan");
 
         }
 
       }
-
-
-
     }
-
-
-
-
     console.log("lalana miverina" + lalana_miverina);
   }
+
 
 
 
