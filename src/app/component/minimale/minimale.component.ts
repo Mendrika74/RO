@@ -71,7 +71,7 @@ export class MinimaleComponent implements OnInit {
       { from: -5, to: -9, text: "1" },
       { from: -7, to: -8, text: "1" },
 
-      // { from: -8, to: -7, text: "1" },
+      //{ from: -8, to: -7, text: "1" }, // arc de boucle infinie
 
       { from: -9, to: -8, text: "3" },
 
@@ -475,10 +475,10 @@ export class MinimaleComponent implements OnInit {
   }
   load() {
     this.diagram.model = go.Model.fromJson(this.data);
-
     this.diagram.grid.visible = true;
   }
 
+  //algorithm of Ford Max
   maxFord(tab) {
     let current: number = 0;
     let compte: number = 0;
@@ -535,7 +535,10 @@ export class MinimaleComponent implements OnInit {
 
   }
 
+  // put data from Gojs to vector struct
   algoFusion() {
+    let k: number = 0;
+    let nb: number;
     let tab = new Array();
     let taillelink: number = this.data_in_diagrame.linkDataArray.length;
     let tailleNode: number = this.data_in_diagrame.nodeDataArray.length;
@@ -562,151 +565,114 @@ export class MinimaleComponent implements OnInit {
       tab.push(sommet);
     }
     console.log(tab);
+    nb = this.nbInfToSup();
     this.maxFord(tab);
-    this.findPath(tab);
+    for (k = 0; k <= nb; k++) {
+      if (nb == 0) {
+        this.findPath(tab);
+        break;
+      } else {
+        this.findPath(tab);
+      }
+    }
+    //this.detectInfinityLoop();
   }
 
+  //finding the exact path
   findPath(tab) {
-    let taille: number = tab.length - 1;
-    let lambda_current: number;
-    let lambda_last: number;
-    let res_: number;
-    let i: number = taille;
-    let lalana_miverina = new Array();
-    //lambda_last = tab[i].getLambda();
-
-    for (i; i >= 0; i--) {
-      lambda_current = tab[i].getLambda();
-      for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
-        //lambda_current = lambda_last;
-        if ((i + 1) == ((this.data_in_diagrame.linkDataArray[j].to * (-1)))) {
-          console.log("%c ity : " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " makaty " + (i + 1), 'background : yellow;');
-          res_ = lambda_current - parseInt(this.data_in_diagrame.linkDataArray[j].text);
-          if (res_ == tab[((this.data_in_diagrame.linkDataArray[j].from * (-1)) - 1)].getLambda()) {
-            lalana_miverina.push({ to: this.data_in_diagrame.linkDataArray[j].from * (-1), from: (i + 1) });
-            console.log(" %c asina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
-            // lambda_last = tab[((this.data_in_diagrame.linkDataArray[j].from * (-1)) - 1)].getLambda();
-          } else {
-            console.log("%c tsy lalana", 'background: red;');
-            //lambda_last = lambda_current;
-          }
-        }
-
-      }
-    }
-    //this.coloriage(lalana_miverina);
-    this.treatNoEnd(lalana_miverina);
-  }
-
-  treatNoEnd(lalana_miverina) {
-    console.log(lalana_miverina);
-    console.log("triage");
-    let lalana_ = new Array();
-    let from: number;
-    let to: number;
-    to = lalana_miverina[0].from; //16
-    from = lalana_miverina[0].to; //14
-    for (let i = 0; i < lalana_miverina.length; i++) {
-      //console.log(to);          
-      for (let j = 0; j < lalana_miverina.length; j++) {
-        if (from == lalana_miverina[j].from) {
-          //console.log("%c nampiditra ity : " + from + "  makary : " + to, 'background: green;');
-          lalana_.push({ to: from, from: to });
-          //console.log("%c " + from, 'background: red;');
-          from = lalana_miverina[j].to;
-          to = lalana_miverina[j].from;
-          if (from == 1) {
-            lalana_.push({ to: from, from: to });
-          }
-        }
-      }
-    }
-    this.coloriage(lalana_);
-  }
-
-  /*findPath(tab) {
     let taille: number = tab.length;
     let lambda: number;
     let lambda_first: number;
     let res_: number;
     let i: number = taille - 1;
-    let k: number;
-    let demitour: boolean = false;
-    let last_sommet_visited: Sommet;
-    let last_sommet: Sommet;
     let lalana_miverina = new Array();
-    console.log(" ");
+    let demitour: boolean = false;
+    let turn: number;
     console.log(" %c+++++ calcule recule commance +++++", 'background: #222; color: #bada55');
     lambda_first = tab[i].getLambda();
-    last_sommet = tab[i];
+    tab[i].setLalana(true);
     for (i; i >= 0; i--) {
-      //console.log("lambda de " + i + " = " + tab[i].getLambda());             
-      lambda = lambda_first;
-      last_sommet_visited = last_sommet;
+      //lambda = lambda_first;
+      /* if (demitour) {
+         i = turn;
+         demitour = false;
+       }*/
       for (let j = 0; j < this.data_in_diagrame.linkDataArray.length; j++) {
-       // console.log("%c indice tab " + i, 'background: pink; color: white');
         if ((i + 1) == this.data_in_diagrame.linkDataArray[j].to * (-1)) {
-          console.log("%c  from : " + (this.data_in_diagrame.linkDataArray[j].from * (-1) - 1) + " to : " + (i + 1), 'background: blue; color: #bada55');
+          lambda = tab[i].getLambda();
           res_ = lambda - parseInt(this.data_in_diagrame.linkDataArray[j].text);
-          //console.log("resultat : " + res_ + " == " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda());
-          console.log("%c  from : " + (this.data_in_diagrame.linkDataArray[j].from * (-1) - 1) + " to : " + (i + 1), 'background: blue; color: #bada55');
+          if (tab[i].getLalana()) {
             if (res_ == tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda()) {
-              lambda_first = tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda();
+              tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].setLalana(true);
               lalana_miverina.push({ to: this.data_in_diagrame.linkDataArray[j].from * (-1), from: (i + 1) });
-              console.log(" %c asina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
-              //console.log("lambda de " + i + " = " + tab[i].getLambda());
-              console.log("************************");
+              console.log(" %casina couleur ny arc " + this.data_in_diagrame.linkDataArray[j].from * (-1) + " to " + (i + 1), 'background: green; color: #bada55');
             } else {
-              console.log("tsy lalana");
+              console.log("from " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to);
             }
+            //console.log(" %c lambda: " + lambda + " from'ny " + tab[this.data_in_diagrame.linkDataArray[j].from * (-1) - 1].getLambda(), 'background: #222; color: #bada55');
+          } else {
+            console.log("tsy lalana e !");
+
+          }
         }
       }
-      //console.log("+++++++++ tour =  " + i + " +++++");
-      console.log(" ");
-      //console.log("tour : " + i);
-      last_sommet = tab[i];
     }
-    console.log(lalana_miverina);
+    // console.log("lalana miverina" + lalana_miverina);
     // this.delNoTo(lalana_miverina);
     this.coloriage(lalana_miverina);
-  }*/
-
-  delNoTo(lalana_miverina) {
-    let tabFiltre = new Array();
-    let trouve: boolean = false;
-    let fin: number = lalana_miverina[0].from;
-    lalana_miverina.push({ to: fin, from: 0 });
-    for (let i = 0; i < lalana_miverina.length; i++) {
-      trouve = false;
-      for (let j = 0; j < lalana_miverina.length; j++) {
-        if (lalana_miverina[i].from == lalana_miverina[j].to) {
-          trouve = true;
-        }
-        if (trouve) {
-          tabFiltre.push(lalana_miverina[i]);
-          break;
-        }
-      }
-    }
-    console.log(tabFiltre);
-    // this.coloriage(tabFiltre);
   }
 
+  // count the number of major "from" to minor "to"
+  nbInfToSup(): number {
+    let nb: number = 0;
+    for (let i = 0; i < this.data_in_diagrame.linkDataArray.length; i++) {
+      if (this.data_in_diagrame.linkDataArray[i].from * (-1) > this.data_in_diagrame.linkDataArray[i].to * (-1)) {
+        console.log("nb ++");
+        nb++;
+      }
+    }
+    console.log("val nb " + nb);
+    return nb;
+  }
+
+
+
+  // search if there is infinity loop path
+  detectInfinityLoop() {
+    console.log("%c test ", "background: red;");
+    let taille: number = this.data_in_diagrame.linkDataArray.length;
+    let from: number;
+    let to: number;
+    from = this.data_in_diagrame.linkDataArray[0].from; //1 
+    to = this.data_in_diagrame.linkDataArray[0].to; //2 
+    for (let i = 1; i < taille; i++) {
+      for (let j = 0; j < taille; j++) {
+        if (to == this.data_in_diagrame.linkDataArray[j].from && from == this.data_in_diagrame.linkDataArray[j].to) {
+          console.log("%c indice : " + j + "  from " + this.data_in_diagrame.linkDataArray[j].from + " to : " + this.data_in_diagrame.linkDataArray[j].to, "background: green;");
+          // this.diagram.model. (this.data_in_diagrame.linkDataArray[j]);
+        }
+        if (parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || this.data_in_diagrame.linkDataArray[j].text) {
+          console.log("%c arc entre form " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to, "background: red;");
+          this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "red");
+        }
+      }
+      from = this.data_in_diagrame.linkDataArray[i].from; //1 
+      to = this.data_in_diagrame.linkDataArray[i].to; //2 
+    }
+  }
+
+  // color the exact path and sommets
   coloriage(lalana_miverina) {
     console.log(lalana_miverina);
-
     for (let i = 0; i < lalana_miverina.length; i++) {
-
       var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].to * (-1));
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
       if (data !== null) this.diagram.model.setDataProperty(data, "color", "green");
-
       var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].from * (-1));
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
       if (data !== null) this.diagram.model.setDataProperty(data, "color", "green");
-
       //change color arc
       for (let j = 0; j < this.data.linkDataArray.length; j++) {
         console.log(lalana_miverina[i].from + " " + this.data.linkDataArray[j].from);
@@ -721,7 +687,6 @@ export class MinimaleComponent implements OnInit {
           // console.log("tsy lalan");
 
         }
-
       }
     }
     console.log("lalana miverina" + lalana_miverina);

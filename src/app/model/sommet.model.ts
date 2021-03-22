@@ -3,6 +3,7 @@ export class Sommet {
     private lambda: number;
     private posi_tache: number;
     private index_succ = new Array();
+    private is_lalana: boolean = false;
 
 
     constructor(lambda, position) {
@@ -22,10 +23,16 @@ export class Sommet {
     public getIndex_succ(): any[] {
         return this.index_succ;
     }
+    public getLalana(): boolean {
+        return this.is_lalana;
+    }
 
     //setters
     public setLambda(lambda: number) {
         this.lambda = lambda;
+    }
+    public setLalana(lalana: boolean) {
+        this.is_lalana = lalana;
     }
 
     //adders
