@@ -9,8 +9,6 @@ const routes: Routes = [
 	{ path: '', redirectTo: '/minimale', pathMatch: 'full' },
 	{ path: "maximale", component: MinimaleComponent },
 	{ path: "minimale", component: MaximaleComponent },
-
-
 	{ path: '**', component: MaximaleComponent }
 ];
 

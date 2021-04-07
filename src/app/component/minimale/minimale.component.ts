@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Sommet } from "../../model/sommet.model";
 
 import * as go from 'gojs';
+import { ToastrService } from 'ngx-toastr';
 const $ = go.GraphObject.make;  // for conciseness in defining templates
 
 @Component({
@@ -13,6 +14,8 @@ export class MinimaleComponent implements OnInit {
 
   tab = new Array();
   nRightClicks = 0;
+
+  title: string = "FORD BELLMAN MAXIMALE";
 
   data: any = {
     "class": "go.GraphLinksModel",
@@ -140,7 +143,7 @@ export class MinimaleComponent implements OnInit {
   */
 
 
-  constructor() {/*
+  constructor(private toast: ToastrService) {/*
     this.x16 = new Sommet(0, 15);
     this.x16.addIndex_succ(0); this.x16.addArc(0);
 
@@ -288,24 +291,33 @@ export class MinimaleComponent implements OnInit {
             editable: true  // editing the text automatically updates the model data
           },
           new go.Binding("text").makeTwoWay()),
-        $("TreeExpanderButton",
-          {
-            // set the two additional properties used by "TreeExpanderButton"
-            // that control the shape depending on the value of Node.isTreeExpanded
-            "_treeExpandedFigure": "TriangleUp",
-            "_treeCollapsedFigure": "TriangleDown",
-            // set properties on the icon within the border
-            "ButtonIcon.fill": "darkcyan",
-            "ButtonIcon.strokeWidth": 0,
-            // set general "Button" properties
-            "ButtonBorder.figure": "Circle",
-            "ButtonBorder.stroke": "darkcyan",
-            "_buttonStrokeOver": "darkcyan"
-          },
-          { margin: new go.Margin(0, -6, -6, 0) },
-          { alignment: go.Spot.Bottom, alignmentFocus: go.Spot.Top },
+        {
+          click: function (e, obj) { console.log("Clicked on " + obj.part.data.id); },
+          selectionChanged: function (part) {
+            var shape = part.elt(0);
+            shape.fill = part.isSelected ? "#aa44bb" : "white";
+          }
+        }
+        // $("TreeExpanderButton",
+        //   {
+        //     // set the two additional properties used by "TreeExpanderButton"
+        //     // that control the shape depending on the value of Node.isTreeExpanded
+        //     "_treeExpandedFigure": "TriangleUp",
+        //     "_treeCollapsedFigure": "TriangleDown",
+        //     // set properties on the icon within the border
+        //     "ButtonIcon.fill": "darkcyan",
+        //     "ButtonIcon.strokeWidth": 0,
+        //     // set general "Button" properties
+        //     "ButtonBorder.figure": "Circle",
+        //     "ButtonBorder.stroke": "darkcyan",
+        //     "_buttonStrokeOver": "darkcyan"
+        //   },
+        //   {
+        //     margin: new go.Margin(0, -6, -6, 0)
+        //   },
+        //   { alignment: go.Spot.Bottom, alignmentFocus: go.Spot.Top },
 
-          { visible: true })
+        //   { visible: true })
       );
 
 
@@ -457,13 +469,84 @@ export class MinimaleComponent implements OnInit {
         )
       );
 
+    //ALL listener 
+
+    this.diagram.addDiagramListener("ObjectSingleClicked",
+      function (e) {
+        var part = e.subject.part;
+        if (!(part instanceof go.Link)) console.log("Clicked on :", part.data);
+        console.log(e);
+        // test(e.diagram, part.data);
+      }
+    );
+
+    this.diagram.addModelChangedListener(function (evt) {
+      // ignore unimportant Transaction events
+
+      if (!evt.isTransactionFinished) return;
+      var txn = evt.object;  // a Transaction
+      if (txn === null) return;
+      // iterate over all of the actual ChangedEvents of the Transaction
+      txn.changes.each(function (e) {
+        // record node insertions and removals
+        if (e.change === go.ChangedEvent.Property) {
+          if (e.modelChange === "linkFromKey") {
+            console.log(evt.propertyName + " changed From key of link: " +
+              e.object + " from: " + e.oldValue + " to: " + e.newValue);
+          } else if (e.modelChange === "linkToKey") {
+            console.log(evt.propertyName + " changed To key of link: " +
+              e.object + " from: " + e.oldValue + " to: " + e.newValue);
+          }
+        } else if (e.change === go.ChangedEvent.Insert) {
+          if (e.modelChange === "linkDataArray") {
+            console.log(evt.propertyName + " added link: ", e.newValue);
+          } else {
+            console.log("ok");
+          }
+        } else if (e.change === go.ChangedEvent.Remove) {
+          if (e.modelChange === "linkDataArray") {
+            console.log(evt.propertyName + " removed link: ", e.oldValue);
+          } else if (e.modelChange === "nodeDataArray") {
+            console.log("Node removed");
+
+            test(e, e.oldValue);
+          }
+          else {
+            console.log("okok");
+          }          //console.log(evt.propertyName + " removed link: ", e.oldValue);
+          // console.log("okeoke");
+
+        }
+      });
+    });
+
+
 
 
     // read in the JSON data from the "mySavedModel" element
     this.load();
+
+    function test(evt, data) {
+      let nodeDataArray = JSON.parse(evt.model.toJson()).nodeDataArray;
+      console.log("node Array: ", nodeDataArray);
+      for (let i = 0; i < nodeDataArray.length; i++) {
+        if ((nodeDataArray[i].id * (-1)) > (data.id * (-1))) {
+          var data = evt.model.findNodeDataForKey(nodeDataArray[i].id);
+          // This will NOT change the color of the "Delta" Node
+          console.log("data", data);
+          if (data !== null) evt.model.setDataProperty(data, "id", (nodeDataArray[i].id + 1));
+        } else {
+          console.log("Tsy ovaina");
+        }
+
+      }
+
+    }
   }
   // Show the diagram's model in JSON format
   save() {
+
+    this.toast.success();
     // document.getElementById("mySavedModel").innerHTML = this.diagram.model.toJson();
 
     this.data_in_diagrame = JSON.parse(this.diagram.model.toJson());
@@ -472,10 +555,12 @@ export class MinimaleComponent implements OnInit {
     console.log(x * -1);
 
     //this.diagram.isModified = false;
+
+    this.detectInfinityLoop();
   }
   load() {
     this.diagram.model = go.Model.fromJson(this.data);
-    this.diagram.grid.visible = true;
+    //this.diagram.grid.visible = true;
   }
 
   //algorithm of Ford Max
@@ -537,6 +622,7 @@ export class MinimaleComponent implements OnInit {
 
   // put data from Gojs to vector struct
   algoFusion() {
+    this.save();
     let k: number = 0;
     let nb: number;
     let tab = new Array();
@@ -651,7 +737,7 @@ export class MinimaleComponent implements OnInit {
           console.log("%c indice : " + j + "  from " + this.data_in_diagrame.linkDataArray[j].from + " to : " + this.data_in_diagrame.linkDataArray[j].to, "background: green;");
           // this.diagram.model. (this.data_in_diagrame.linkDataArray[j]);
         }
-        if (parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || this.data_in_diagrame.linkDataArray[j].text) {
+        if (parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || isNaN(parseInt(this.data_in_diagrame.linkDataArray[j].text))) {
           console.log("%c arc entre form " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to, "background: red;");
           this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "red");
         }

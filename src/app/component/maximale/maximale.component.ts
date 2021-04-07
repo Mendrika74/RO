@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Sommet } from "../../model/sommet.model";
 
 import * as go from 'gojs';
+import { ToastService } from 'src/app/service/toast.service';
 
 const $ = go.GraphObject.make;
 
@@ -14,6 +15,9 @@ export class MaximaleComponent implements OnInit {
   // tab = new Array();
   tabFus = new Array();
   nRightClicks = 0;
+
+  title: string = "FORD BELLMAN MINIMALE";
+
 
   data: any = {
     "class": "go.GraphLinksModel",
@@ -124,7 +128,7 @@ export class MaximaleComponent implements OnInit {
 
   data_in_diagrame: any = [];
 
-  constructor() {
+  constructor(private toast: ToastService) {
   }
 
   ngOnInit() {
@@ -205,25 +209,25 @@ export class MaximaleComponent implements OnInit {
             var shape = part.elt(0);
             shape.fill = part.isSelected ? "#aa44bb" : "white";
           }
-        },
-        $("TreeExpanderButton",
-          {
-            // set the two additional properties used by "TreeExpanderButton"
-            // that control the shape depending on the value of Node.isTreeExpanded
-            "_treeExpandedFigure": "TriangleUp",
-            "_treeCollapsedFigure": "TriangleDown",
-            // set properties on the icon within the border
-            "ButtonIcon.fill": "darkcyan",
-            "ButtonIcon.strokeWidth": 0,
-            // set general "Button" properties
-            "ButtonBorder.figure": "Circle",
-            "ButtonBorder.stroke": "darkcyan",
-            "_buttonStrokeOver": "darkcyan"
-          },
-          { margin: new go.Margin(0, -6, -6, 0) },
-          { alignment: go.Spot.Bottom, alignmentFocus: go.Spot.Top },
+        }
+        // $("TreeExpanderButton",
+        //   {
+        //     // set the two additional properties used by "TreeExpanderButton"
+        //     // that control the shape depending on the value of Node.isTreeExpanded
+        //     "_treeExpandedFigure": "TriangleUp",
+        //     "_treeCollapsedFigure": "TriangleDown",
+        //     // set properties on the icon within the border
+        //     "ButtonIcon.fill": "darkcyan",
+        //     "ButtonIcon.strokeWidth": 0,
+        //     // set general "Button" properties
+        //     "ButtonBorder.figure": "Circle",
+        //     "ButtonBorder.stroke": "darkcyan",
+        //     "_buttonStrokeOver": "darkcyan"
+        //   },
+        //   { margin: new go.Margin(0, -6, -6, 0) },
+        //   { alignment: go.Spot.Bottom, alignmentFocus: go.Spot.Top },
 
-          { visible: true })
+        //   { visible: true })
       );
 
 
@@ -459,11 +463,13 @@ export class MaximaleComponent implements OnInit {
     console.log(x * -1);
 
     //this.diagram.isModified = false;
+
+    return this.detectInfinityLoop();
   }
   load() {
     this.diagram.model = go.Model.fromJson(this.data);
 
-    this.diagram.grid.visible = true;
+    // this.diagram.grid.visible = true;
   }
 
   //algorithm of Ford Min
@@ -525,44 +531,49 @@ export class MaximaleComponent implements OnInit {
 
   // put data from Gojs to vector struct
   algoFusion() {
-    let k: number = 0;
-    let nb: number;
-    let tab = new Array();
-    let taillelink: number = this.data_in_diagrame.linkDataArray.length;
-    let tailleNode: number = this.data_in_diagrame.nodeDataArray.length;
-    let sommet: Sommet;
-    let trouve: boolean = false;
-    for (let i = 0; i < tailleNode; i++) {
-      trouve = false;
-      //sommet = new Sommet(Infinity, (this.data_in_diagrame.linkDataArray[i].from * (-1)) - 2);4
-      if (i == 0) {
-        sommet = new Sommet(0, 0);
-      } else {
-        sommet = new Sommet(Infinity, i);
-      }
-      console.log(sommet);
-      for (let j = 0; j < taillelink; j++) {
-        if ((this.data_in_diagrame.nodeDataArray[i].id * (-1)) == (this.data_in_diagrame.linkDataArray[j].from * (-1))) {
-          // console.log("To= ", (this.data_in_diagrame.linkDataArray[j].to * (-1)) - 2);     
-          sommet.addIndex_succ((this.data_in_diagrame.linkDataArray[j].to * (-1)) - 1);
-          sommet.addArc(parseInt(this.data_in_diagrame.linkDataArray[j].text));
-          trouve = true;
+    if (!this.save()) {
+      let k: number = 0;
+      let nb: number;
+      let tab = new Array();
+      let taillelink: number = this.data_in_diagrame.linkDataArray.length;
+      let tailleNode: number = this.data_in_diagrame.nodeDataArray.length;
+      let sommet: Sommet;
+      let trouve: boolean = false;
+      for (let i = 0; i < tailleNode; i++) {
+        trouve = false;
+        //sommet = new Sommet(Infinity, (this.data_in_diagrame.linkDataArray[i].from * (-1)) - 2);4
+        if (i == 0) {
+          sommet = new Sommet(0, 0);
+        } else {
+          sommet = new Sommet(Infinity, i);
         }
-        //console.log(this.data_in_diagrame.linkDataArray[j].from * (-1));
+        console.log(sommet);
+        for (let j = 0; j < taillelink; j++) {
+          if ((this.data_in_diagrame.nodeDataArray[i].id * (-1)) == (this.data_in_diagrame.linkDataArray[j].from * (-1))) {
+            // console.log("To= ", (this.data_in_diagrame.linkDataArray[j].to * (-1)) - 2);     
+            sommet.addIndex_succ((this.data_in_diagrame.linkDataArray[j].to * (-1)) - 1);
+            sommet.addArc(parseInt(this.data_in_diagrame.linkDataArray[j].text));
+            trouve = true;
+          }
+          //console.log(this.data_in_diagrame.linkDataArray[j].from * (-1));
+        }
+        tab.push(sommet);
       }
-      tab.push(sommet);
-    }
-    //console.log(tab);
-    nb = this.nbInfToSup();
-    this.minFord(tab);
-    for (k = 0; k <= nb; k++) {
-      if (nb == 0) {
-        this.findPath(tab);
-        break;
-      } else {
-        this.findPath(tab);
+      //console.log(tab);
+      nb = this.nbInfToSup();
+      this.minFord(tab);
+      for (k = 0; k <= nb; k++) {
+        if (nb == 0) {
+          this.findPath(tab);
+          break;
+        } else {
+          this.findPath(tab);
+        }
       }
+    } else {
+      this.toast.showError("valeur arc non accepté", "Erreur", 2000);
     }
+
 
   }
 
@@ -666,6 +677,30 @@ export class MaximaleComponent implements OnInit {
       }
     }
     console.log("lalana miverina" + lalana_miverina);
+  }
+
+  // search if there is infinity loop path
+  detectInfinityLoop() {
+    let trouve: Boolean = false;
+    console.log("%c test ", "background: red;");
+    let taille: number = this.data_in_diagrame.linkDataArray.length;
+    let from: number;
+    let to: number;
+    from = this.data_in_diagrame.linkDataArray[0].from; //1 
+    to = this.data_in_diagrame.linkDataArray[0].to; //2 
+    for (let i = 1; i < taille; i++) {
+      for (let j = 0; j < taille; j++) {
+        if (parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || isNaN(parseInt(this.data_in_diagrame.linkDataArray[j].text))) {
+          console.log("%c arc entre form " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to, "background: red;");
+          this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "red");
+          trouve = true;
+        }
+      }
+      from = this.data_in_diagrame.linkDataArray[i].from; //1 
+      to = this.data_in_diagrame.linkDataArray[i].to; //2 
+    }
+
+    return trouve;
   }
 
 }
