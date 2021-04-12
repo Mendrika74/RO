@@ -2,7 +2,12 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { Sommet } from "../../model/sommet.model";
 
 import * as go from 'gojs';
-import { ToastrService } from 'ngx-toastr';
+
+import { LocalStorageService } from 'src/app/service/local-storage.service';
+import { ToastService } from 'src/app/service/toast.service';
+import { FakedataService } from 'src/app/service/fakedata.service';
+import { ActivatedRoute } from '@angular/router';
+
 const $ = go.GraphObject.make;  // for conciseness in defining templates
 
 @Component({
@@ -17,102 +22,8 @@ export class MinimaleComponent implements OnInit {
 
   title: string = "FORD BELLMAN MAXIMALE";
 
-  data: any = {
-    "class": "go.GraphLinksModel",
-    "nodeKeyProperty": "id",
-    "nodeDataArray": [
-      { text: "x1", id: -1, loc: "-446 -46" },
-
-      { text: "x2", id: -2, loc: "-314 -101" },
-
-      { text: "x3", id: -3, loc: "-217 87" },
-
-      { text: "x4", id: -4, loc: "-210 -178" },
-
-      { text: "x5", id: -5, loc: "-25 -204" },
-
-      { text: "x6", id: -6, loc: "-71 70" },
-
-      { text: "x7", id: -7, loc: "20 -75" },
-
-      { text: "x8", id: -8, loc: "176 -69" },
-
-      { text: "x9", id: -9, loc: "110 -169" },
-
-      { text: "x10", id: -10, loc: "275 -170" },
-
-      { text: "x11", id: -11, loc: "79 74" },
-
-      { text: "x12", id: -12, loc: "392 -150" },
-
-      { text: "x13", id: -13, loc: "279 115" },
-
-      { text: "x14", id: -14, loc: "551 55" },
-
-      { text: "x15", id: -15, loc: "534 -112" },
-
-      { text: "x16", id: -16, loc: "630 -45" },
-
-      /*
-        { text: "x1", id: -1, loc: "-338 -17", color: "white" },
-        { text: "x2", loc: "-211 -96", id: -2, color: "white" },
-        { text: "x3", loc: "-213 16", id: -3, color: "white" },
-        { text: "x4", loc: "-112 79", id: -4, color: "white" },
-        { text: "x5", loc: "-13 16", id: -5, color: "white" },
-        { text: "x6", loc: "129 -61", id: -6, color: "white" },*/
-    ],
-    "linkDataArray": [
-
-      { from: -1, to: -2, text: "10" },
-      { from: -2, to: -3, text: "15" },
-      { from: -2, to: -4, text: "8" },
-      { from: -4, to: -3, text: "8" },
-      { from: -3, to: -6, text: "1" },
-      { from: -4, to: -5, text: "6" },
-      { from: -6, to: -5, text: "5" },
-      { from: -6, to: -7, text: "4" },
-      { from: -5, to: -9, text: "1" },
-      { from: -7, to: -8, text: "1" },
-
-      //{ from: -8, to: -7, text: "1" }, // arc de boucle infinie
-
-      { from: -9, to: -8, text: "3" },
-
-      { from: -8, to: -10, text: "2" },
-
-      { from: -9, to: -10, text: "4" },
-
-      { from: -3, to: -11, text: "16" },
-
-      { from: -7, to: -11, text: "8" },
-
-      { from: -10, to: -12, text: "7" },
-
-      { from: -11, to: -12, text: "6" },
-
-      { from: -11, to: -13, text: "12" },
-
-      { from: -13, to: -14, text: "3" },
-
-      { from: -12, to: -15, text: "9" },
-
-      { from: -15, to: -16, text: "6" },
-
-      { from: -14, to: -16, text: "3" },
-
-      { from: -15, to: -14, text: "5" }
-      /*
-            { from: -1, to: -2, text: "20", points: Array(8) },
-            { from: -1, to: -3, text: "5", points: Array(8) },
-            { from: -3, to: -4, text: "1", points: Array(8) },
-            { from: -3, to: -5, text: "4", points: Array(8) },
-            { from: -5, to: -6, text: "1", points: Array(8) },
-            { from: -4, to: -5, points: Array(8), text: "3" },
-            { from: -2, to: -6, points: Array(8), text: "4" },
-      */
-    ]
-  }
-
+  data: any = []; /*
+*/
   diagram: go.Diagram = null;
 
   @Input()
@@ -123,103 +34,29 @@ export class MinimaleComponent implements OnInit {
 
 
   data_in_diagrame: any = [];
-  /*
-    x16: Sommet;
-    x15: Sommet;
-    x14: Sommet;
-    x13: Sommet;
-    x12: Sommet;
-    x11: Sommet;
-    x10: Sommet;
-    x9: Sommet;
-    x8: Sommet;
-    x7: Sommet;
-    x6: Sommet;
-    x5: Sommet;
-    x4: Sommet;
-    x3: Sommet;
-    x2: Sommet;
-    x1: Sommet;
-  */
 
 
-  constructor(private toast: ToastrService) {/*
-    this.x16 = new Sommet(0, 15);
-    this.x16.addIndex_succ(0); this.x16.addArc(0);
+  constructor(
+    private toast: ToastService,
+    private localStorage: LocalStorageService,
+    private router: ActivatedRoute,
+    private fakedata: FakedataService
+  ) {
 
-    this.x14 = new Sommet(0, 13);
-    this.x14.addIndex_succ(15); this.x14.addArc(3);
-
-    this.x15 = new Sommet(0, 14);
-    this.x15.addIndex_succ(13); this.x15.addArc(5);
-    this.x15.addIndex_succ(15); this.x15.addArc(6);
-
-    this.x13 = new Sommet(0, 12);
-    this.x13.addIndex_succ(13); this.x13.addArc(3);
-
-    this.x12 = new Sommet(0, 11);
-    this.x12.addIndex_succ(14); this.x12.addArc(9);
-
-    this.x11 = new Sommet(0, 10);
-    this.x11.addIndex_succ(11); this.x11.addArc(6);
-    this.x11.addIndex_succ(12); this.x11.addArc(12);
-
-    this.x10 = new Sommet(0, 9);
-    this.x10.addIndex_succ(11); this.x10.addArc(7);
-
-    this.x9 = new Sommet(0, 8);
-    this.x9.addIndex_succ(7); this.x9.addArc(3);
-    this.x9.addIndex_succ(9); this.x9.addArc(4);
-
-    this.x8 = new Sommet(0, 7);
-    this.x8.addIndex_succ(9); this.x8.addArc(2);
-
-    this.x7 = new Sommet(0, 6);
-    this.x7.addIndex_succ(7); this.x7.addArc(1);
-    this.x7.addIndex_succ(10); this.x7.addArc(8);
-
-    this.x6 = new Sommet(0, 5);
-    this.x6.addIndex_succ(4); this.x6.addArc(5);
-    this.x6.addIndex_succ(6); this.x6.addArc(4);
-
-    this.x5 = new Sommet(0, 4);
-    this.x5.addIndex_succ(8); this.x5.addArc(1);
-
-    this.x4 = new Sommet(0, 3);
-    this.x4.addIndex_succ(2); this.x4.addArc(8);
-    this.x4.addIndex_succ(4); this.x4.addArc(6);
-
-    this.x3 = new Sommet(0, 2);
-    this.x3.addIndex_succ(5); this.x3.addArc(1);
-    this.x3.addIndex_succ(10); this.x3.addArc(16);
-
-    this.x2 = new Sommet(0, 1);
-    this.x2.addIndex_succ(2); this.x2.addArc(15);
-    this.x2.addIndex_succ(3); this.x2.addArc(8);
-
-    this.x1 = new Sommet(0, 0);
-    this.x1.addIndex_succ(1); this.x1.addArc(10);
-
-
-    this.tab.push(this.x1);
-    this.tab.push(this.x2);
-    this.tab.push(this.x3);
-    this.tab.push(this.x4);
-    this.tab.push(this.x5);
-    this.tab.push(this.x6);
-    this.tab.push(this.x7);
-    this.tab.push(this.x8);
-    this.tab.push(this.x9);
-    this.tab.push(this.x10);
-    this.tab.push(this.x11);
-    this.tab.push(this.x12);
-    this.tab.push(this.x13);
-    this.tab.push(this.x14);
-    this.tab.push(this.x15);
-    this.tab.push(this.x16);*/
   }
 
   ngOnInit(): void {
+    let de = this.router.snapshot.paramMap.get('data');
+    console.log("de=", de);
+
+    if (de != "switch") {
+      console.log("OOOO");
+
+      this.data = this.fakedata.maximale;
+    } else {
+      this.data = this.localStorage.getOnLocalStorage();
+    }
+
   }
 
   ngAfterViewInit() {
@@ -263,7 +100,7 @@ export class MinimaleComponent implements OnInit {
 
     // define the Node template
     this.diagram.nodeTemplate =
-      $(go.Node, "Auto",
+      /*$(go.Node, "Auto",
         {
           locationSpot: go.Spot.Top,
           isShadowed: true, shadowBlur: 1,
@@ -298,26 +135,45 @@ export class MinimaleComponent implements OnInit {
             shape.fill = part.isSelected ? "#aa44bb" : "white";
           }
         }
-        // $("TreeExpanderButton",
-        //   {
-        //     // set the two additional properties used by "TreeExpanderButton"
-        //     // that control the shape depending on the value of Node.isTreeExpanded
-        //     "_treeExpandedFigure": "TriangleUp",
-        //     "_treeCollapsedFigure": "TriangleDown",
-        //     // set properties on the icon within the border
-        //     "ButtonIcon.fill": "darkcyan",
-        //     "ButtonIcon.strokeWidth": 0,
-        //     // set general "Button" properties
-        //     "ButtonBorder.figure": "Circle",
-        //     "ButtonBorder.stroke": "darkcyan",
-        //     "_buttonStrokeOver": "darkcyan"
-        //   },
-        //   {
-        //     margin: new go.Margin(0, -6, -6, 0)
-        //   },
-        //   { alignment: go.Spot.Bottom, alignmentFocus: go.Spot.Top },
+      );*/
 
-        //   { visible: true })
+      $(go.Node, "Horizontal",
+        {
+          locationSpot: go.Spot.Top,
+          isShadowed: true, shadowBlur: 1,
+          shadowOffset: new go.Point(0, 1),
+          shadowColor: "rgba(0, 0, 0, .14)"
+        },
+        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+        $(go.Panel, "Spot",
+          $(go.Shape, "Circle",
+            new go.Binding("fill", "color"),
+            roundedRectangleParams,
+            {
+              name: "SHAPE", fill: "#ffffff", strokeWidth: 0,
+              stroke: null,
+              desiredSize: new go.Size(30, 30),
+              portId: "",  // this Shape is the Node's port, not the whole Node
+              fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+              toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+              cursor: "pointer"
+            }),
+          $(go.TextBlock, {
+            font: "bold small-caps 11pt helvetica, bold arial, sans-serif", stroke: "rgba(0, 0, 0, .87)",
+            editable: true
+          },
+            new go.Binding("text").makeTwoWay()
+          )
+        ),
+        $(go.TextBlock,   // editing the text automatically updates the model data
+          new go.Binding("texte", "texte").makeTwoWay()),
+        {
+          click: function (e, obj) { console.log("Clicked on " + obj.part.data.id); },
+          selectionChanged: function (part) {
+            var shape = part.elt(0);
+            shape.fill = part.isSelected ? "#aa44bb" : "white";
+          }
+        }
       );
 
 
@@ -396,7 +252,7 @@ export class MinimaleComponent implements OnInit {
       var fromData = fromNode.data;
 
       // create a new "State" data object, positioned off to the right of the adorned Node
-      var toData = { text: "SOMMET ", loc: "32" };
+      var toData = { text: "SOMMET ", loc: "32", texte: "" };
       var p = fromNode.location.copy();
 
       p.x += 200;
@@ -545,20 +401,18 @@ export class MinimaleComponent implements OnInit {
   }
   // Show the diagram's model in JSON format
   save() {
-
-    this.toast.success();
-    // document.getElementById("mySavedModel").innerHTML = this.diagram.model.toJson();
-
     this.data_in_diagrame = JSON.parse(this.diagram.model.toJson());
-    console.log(this.data_in_diagrame);
+    console.log("datain", this.data_in_diagrame);
+
     var x = this.data_in_diagrame.linkDataArray.length;
     console.log(x * -1);
 
     //this.diagram.isModified = false;
 
-    this.detectInfinityLoop();
+    return this.detectInfinityLoop();
   }
   load() {
+
     this.diagram.model = go.Model.fromJson(this.data);
     //this.diagram.grid.visible = true;
   }
@@ -616,50 +470,55 @@ export class MinimaleComponent implements OnInit {
       compte++;
       current++;
     }
+    this.putLamda(tab);
     console.log("lambda farany ", tab);
 
   }
 
   // put data from Gojs to vector struct
   algoFusion() {
-    this.save();
-    let k: number = 0;
-    let nb: number;
-    let tab = new Array();
-    let taillelink: number = this.data_in_diagrame.linkDataArray.length;
-    let tailleNode: number = this.data_in_diagrame.nodeDataArray.length;
-    let sommet: Sommet;
-    let trouve: boolean = false;
-    for (let i = 0; i < tailleNode; i++) {
-      trouve = false;
-      //sommet = new Sommet(Infinity, (this.data_in_diagrame.linkDataArray[i].from * (-1)) - 2);4
-      if (i == 0) {
-        sommet = new Sommet(0, 0);
-      } else {
-        sommet = new Sommet(0, i);
-      }
-      console.log(sommet);
-      for (let j = 0; j < taillelink; j++) {
-        if ((this.data_in_diagrame.nodeDataArray[i].id * (-1)) == (this.data_in_diagrame.linkDataArray[j].from * (-1))) {
-          // console.log("To= ", (this.data_in_diagrame.linkDataArray[j].to * (-1)) - 2);     
-          sommet.addIndex_succ((this.data_in_diagrame.linkDataArray[j].to * (-1)) - 1);
-          sommet.addArc(parseInt(this.data_in_diagrame.linkDataArray[j].text));
-          trouve = true;
+    if (!this.save()) {
+      this.recoloriage();
+      let k: number = 0;
+      let nb: number;
+      let tab = new Array();
+      let taillelink: number = this.data_in_diagrame.linkDataArray.length;
+      let tailleNode: number = this.data_in_diagrame.nodeDataArray.length;
+      let sommet: Sommet;
+      let trouve: boolean = false;
+      for (let i = 0; i < tailleNode; i++) {
+        trouve = false;
+        //sommet = new Sommet(Infinity, (this.data_in_diagrame.linkDataArray[i].from * (-1)) - 2);4
+        if (i == 0) {
+          sommet = new Sommet(0, 0);
+        } else {
+          sommet = new Sommet(0, i);
         }
-        //console.log(this.data_in_diagrame.linkDataArray[j].from * (-1));
+        console.log(sommet);
+        for (let j = 0; j < taillelink; j++) {
+          if ((this.data_in_diagrame.nodeDataArray[i].id * (-1)) == (this.data_in_diagrame.linkDataArray[j].from * (-1))) {
+            // console.log("To= ", (this.data_in_diagrame.linkDataArray[j].to * (-1)) - 2);     
+            sommet.addIndex_succ((this.data_in_diagrame.linkDataArray[j].to * (-1)) - 1);
+            sommet.addArc(parseInt(this.data_in_diagrame.linkDataArray[j].text));
+            trouve = true;
+          }
+          //console.log(this.data_in_diagrame.linkDataArray[j].from * (-1));
+        }
+        tab.push(sommet);
       }
-      tab.push(sommet);
-    }
-    console.log(tab);
-    nb = this.nbInfToSup();
-    this.maxFord(tab);
-    for (k = 0; k <= nb; k++) {
-      if (nb == 0) {
-        this.findPath(tab);
-        break;
-      } else {
-        this.findPath(tab);
+      console.log(tab);
+      nb = this.nbInfToSup();
+      this.maxFord(tab);
+      for (k = 0; k <= nb; k++) {
+        if (nb == 0) {
+          this.findPath(tab);
+          break;
+        } else {
+          this.findPath(tab);
+        }
       }
+    } else {
+      this.toast.showError("valeur arc non accepté", "Erreur", 2000);
     }
     //this.detectInfinityLoop();
   }
@@ -725,6 +584,7 @@ export class MinimaleComponent implements OnInit {
 
   // search if there is infinity loop path
   detectInfinityLoop() {
+    let trouve: Boolean = false;
     console.log("%c test ", "background: red;");
     let taille: number = this.data_in_diagrame.linkDataArray.length;
     let from: number;
@@ -736,15 +596,19 @@ export class MinimaleComponent implements OnInit {
         if (to == this.data_in_diagrame.linkDataArray[j].from && from == this.data_in_diagrame.linkDataArray[j].to) {
           console.log("%c indice : " + j + "  from " + this.data_in_diagrame.linkDataArray[j].from + " to : " + this.data_in_diagrame.linkDataArray[j].to, "background: green;");
           // this.diagram.model. (this.data_in_diagrame.linkDataArray[j]);
+          trouve = true;
         }
         if (parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || isNaN(parseInt(this.data_in_diagrame.linkDataArray[j].text))) {
           console.log("%c arc entre form " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to, "background: red;");
           this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "red");
+          trouve = true;
         }
       }
       from = this.data_in_diagrame.linkDataArray[i].from; //1 
       to = this.data_in_diagrame.linkDataArray[i].to; //2 
     }
+
+    return trouve;
   }
 
   // color the exact path and sommets
@@ -779,6 +643,44 @@ export class MinimaleComponent implements OnInit {
   }
 
 
+  putLamda(tab) {
+    console.log("Lmadan", tab);
+    for (let i = 0; i < tab.length; i++) {
+
+      var data = this.diagram.model.findNodeDataForKey("" + (i + 1) * (-1));
+      // This will NOT change the color of the "Delta" Node
+      console.log("data", data);
+      if (data !== null) this.diagram.model.setDataProperty(data, "texte", 'λ = ' + tab[i].lambda);
+    }
+  }
+
+  recoloriage() {
+    console.log(this.data_in_diagrame);
+
+    for (let i = 0; i < this.data_in_diagrame["nodeDataArray"].length; i++) {
+
+      var data = this.diagram.model.findNodeDataForKey("" + this.data_in_diagrame["nodeDataArray"][i].id);
+      // This will NOT change the color of the "Delta" Node
+      console.log("data efefe", this.data_in_diagrame["nodeDataArray"][i].id);
+      if (data !== null) this.diagram.model.setDataProperty(data, "color", "white");
+      /*
+            var data = this.diagram.model.findNodeDataForKey("" + this.data.nodeDataArray[i].from * (-1));
+            // This will NOT change the color of the "Delta" Node
+            console.log("data", data);
+            if (data !== null) this.diagram.model.setDataProperty(data, "color", "black");
+            */
+
+      //change color arc
+      for (let j = 0; j < this.data_in_diagrame["linkDataArray"].length; j++) {
+        this.diagram.model.setDataProperty(this.data.linkDataArray[j], "progress", false);
+      }
+    }
+  }
+
+
+  SetDataToLocalaStorage() {
+    this.localStorage.storeOnLocalStorage(JSON.parse(this.diagram.model.toJson()), "minimale");
+  }
 
 
 }

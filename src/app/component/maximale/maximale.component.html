@@ -19,7 +19,7 @@
     <div class="container-fluid">
         <div id="myDiagramDive"></div>
         <div class="btn-group float-right" role="group" aria-label="Basic example">
-            <select [value]="this.title" class="form-group">
+            <select [value]="this.title" class="form-group" (change)="SetDataToLocalaStorage()">
                 <option value="FORD BELLMAN MAXIMALE" id="">Maximale</option>
                 <option value="FORD BELLMAN MINIMALE" id="">Minimale</option>
             </select>
