@@ -5,11 +5,14 @@ import * as go from 'gojs';
 import { ToastService } from 'src/app/service/toast.service';
 import { FakedataService } from 'src/app/service/fakedata.service';
 import { LocalStorageService } from 'src/app/service/local-storage.service';
+import { ConvertImageService } from 'src/app/service/convert-image.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { ModalService } from 'src/app/service/modal.service';
+
 
 const $ = go.GraphObject.make;
 
@@ -20,6 +23,7 @@ const $ = go.GraphObject.make;
 })
 export class MinMaxComponent implements OnInit {
 
+  imageObject: Array<object> = [];
 
   title: string = "FORD BELLMAN";
 
@@ -40,7 +44,9 @@ export class MinMaxComponent implements OnInit {
   constructor(private toast: ToastService,
     private localStorage: LocalStorageService,
     private router: ActivatedRoute,
-    private fakedata: FakedataService) {
+    private fakedata: FakedataService,
+    private ConvertImage: ConvertImageService,
+    private modale: ModalService) {
   }
 
   ngOnInit(): void {
@@ -48,6 +54,8 @@ export class MinMaxComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+
+
     var roundedRectangleParams = {
       parameter1: 2,  // set the rounded corner
       spot1: go.Spot.TopLeft, spot2: go.Spot.BottomRight  // make content go all the way to inside edges of rounded corners
@@ -343,6 +351,7 @@ export class MinMaxComponent implements OnInit {
 
       }
     }
+
   }
 
   // Show the diagram's model in JSON format
@@ -718,32 +727,63 @@ export class MinMaxComponent implements OnInit {
     var halfHeight = d.height / 2;
     let img;
     img = this.diagram.makeImage({
-      position: new go.Point(d.x, d.y),
-      size: new go.Size(halfWidth, halfHeight)
+      scale: 1,
+      background: "AntiqueWhite",
+      type: "image/jpeg"
     });
     this.addImage(img); // Adds the image to a DIV below
+    console.log(img.src);
 
-    img = this.diagram.makeImage({
-      position: new go.Point(d.x + halfWidth, d.y),
-      size: new go.Size(halfWidth, halfHeight)
-    });
-    this.addImage(img);
+    this.imageObject.push({
+      image: img.src,
+      thumbImage: img.src,
+      alt: 'alt of image',
+      title: 'minimisation'
+    })
 
-    img = this.diagram.makeImage({
-      position: new go.Point(d.x, d.y + halfHeight),
-      size: new go.Size(halfWidth, halfHeight)
-    });
-    this.addImage(img);
+  }
 
-    img = this.diagram.makeImage({
-      position: new go.Point(d.x + halfWidth, d.y + halfHeight),
-      size: new go.Size(halfWidth, halfHeight)
-    });
-    this.addImage(img); d
+  history() {
+    this.modale.openDialog(this.imageObject);
   }
 
   addImage(img) {
-    document.getElementById('image').appendChild(img);
+
+    let image = document.getElementById('image');
+    image.appendChild(img);
+
+    // this.ConvertImage.getImage(img);
+
+
+  }
+
+  // When the blob is complete, make an anchor tag for it and use the tag to initiate a download
+  // Works in Chrome, Firefox, Safari, Edge, IE11
+  myCallback(blob) {
+    var url = window.URL.createObjectURL(blob);
+    var filename = "myBlobFile.png";
+
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+
+    // IE 11
+    if (window.navigator.msSaveBlob !== undefined) {
+      window.navigator.msSaveBlob(blob, filename);
+      return;
+    }
+
+    document.body.appendChild(a);
+    requestAnimationFrame(function () {
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    });
+  }
+
+  makeBlob() {
+    var blob = this.diagram.makeImageData({ background: "white", returnType: "blob", callback: this.myCallback });
+
   }
 
 

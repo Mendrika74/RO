@@ -12,6 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { AnnimationComponent } from './component/annimation/annimation.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 
 @NgModule({
@@ -19,7 +23,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     AppComponent,
     MaximaleComponent,
     MinimaleComponent,
-    MinMaxComponent
+    MinMaxComponent,
+    AnnimationComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatIconModule,
     MatButtonModule,
     MatTooltipModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    NgImageSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
