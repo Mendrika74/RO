@@ -13,6 +13,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ModalService } from 'src/app/service/modal.service';
 
+import { MatBadgeModule } from '@angular/material/badge';
+
 
 const $ = go.GraphObject.make;
 
@@ -31,6 +33,10 @@ export class MinMaxComponent implements OnInit {
 
 
   diagram: go.Diagram = null;
+
+  algorithme: String = "FORD";
+
+  arc_error: any[] = [];
 
   @Input()
   model: go.Model;
@@ -120,7 +126,7 @@ export class MinMaxComponent implements OnInit {
             new go.Binding("text").makeTwoWay()
           )
         ),
-        $(go.TextBlock,   // editing the text automatically updates the model data
+        $(go.TextBlock,
           new go.Binding("text", "texte").makeTwoWay()),
         {
           click: function (e, obj) { console.log("Clicked on " + obj.part.data.id); },
@@ -373,6 +379,8 @@ export class MinMaxComponent implements OnInit {
 
   // search if there is infinity loop path
   detectInfinityLoopMin() {
+    this.arc_error = [];
+    this.recoloriage();
     let trouve: Boolean = false;
     console.log("%c test ", "background: red;");
     let taille: number = this.data_in_diagrame.linkDataArray.length;
@@ -386,6 +394,7 @@ export class MinMaxComponent implements OnInit {
           console.log("%c arc entre form " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to, "background: red;");
           this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "red");
           trouve = true;
+          this.arc_error.push({ from: this.data_in_diagrame.linkDataArray[j].from, to: this.data_in_diagrame.linkDataArray[j].to });
         }
       }
       from = this.data_in_diagrame.linkDataArray[i].from; //1 
@@ -398,6 +407,8 @@ export class MinMaxComponent implements OnInit {
 
   // search if there is infinity loop path
   detectInfinityLoopMax() {
+    this.arc_error = [];
+    this.recoloriage();
     let trouve: Boolean = false;
     console.log("%c test ", "background: red;");
     let taille: number = this.data_in_diagrame.linkDataArray.length;
@@ -407,16 +418,18 @@ export class MinMaxComponent implements OnInit {
     to = this.data_in_diagrame.linkDataArray[0].to; //2 
     for (let i = 1; i < taille; i++) {
       for (let j = 0; j < taille; j++) {
-        if (to == this.data_in_diagrame.linkDataArray[j].from && from == this.data_in_diagrame.linkDataArray[j].to) {
+        if ((to == this.data_in_diagrame.linkDataArray[j].from && from == this.data_in_diagrame.linkDataArray[j].to) || parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || isNaN(parseInt(this.data_in_diagrame.linkDataArray[j].text))) {
           console.log("%c indice : " + j + "  from " + this.data_in_diagrame.linkDataArray[j].from + " to : " + this.data_in_diagrame.linkDataArray[j].to, "background: green;");
           // this.diagram.model. (this.data_in_diagrame.linkDataArray[j]);
-          trouve = true;
-        }
-        if (parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || isNaN(parseInt(this.data_in_diagrame.linkDataArray[j].text))) {
-          console.log("%c arc entre form " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to, "background: red;");
           this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "red");
+          this.arc_error.push({ from: this.data_in_diagrame.linkDataArray[j].from, to: this.data_in_diagrame.linkDataArray[j].to });
           trouve = true;
         }
+        /* if (parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || isNaN(parseInt(this.data_in_diagrame.linkDataArray[j].text))) {
+           console.log("%c arc entre form " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to, "background: red;");
+           this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "red");
+           trouve = true;
+         }*/
       }
       from = this.data_in_diagrame.linkDataArray[i].from; //1 
       to = this.data_in_diagrame.linkDataArray[i].to; //2 
@@ -550,7 +563,7 @@ export class MinMaxComponent implements OnInit {
       var data = this.diagram.model.findNodeDataForKey("" + (i + 1) * (-1));
       // This will NOT change the color of the "Delta" Node
       console.log("data", data);
-      if (data !== null) this.diagram.model.setDataProperty(data, "texte", 'λ = ' + tab[i].lambda);
+      if (data !== null) this.diagram.model.setDataProperty(data, "texte", 'λ ' + (i + 1) + ' = ' + tab[i].lambda);
     }
   }
 
@@ -594,10 +607,10 @@ export class MinMaxComponent implements OnInit {
       nb = this.nbInfToSup();
       if (algo == "max") {
         this.maxFord(tab);
+        this.toast.showSuccess("MAXIMISATION", "Algorithme", 5000);
       } else {
         this.minFord(tab);
-        console.log('test');
-
+        this.toast.showSuccess("MINIMISATION", "Algorithme", 5000);
       }
 
       for (k = 0; k <= nb; k++) {
@@ -609,7 +622,8 @@ export class MinMaxComponent implements OnInit {
         }
       }
     } else {
-      this.toast.showError("valeur arc non accepté", "Erreur", 2000);
+      //this.recoloriage();
+      this.toast.showError(this.arc_error, "Erreur", 5000);
     }
     //this.detectInfinityLoop();
   }
@@ -621,10 +635,12 @@ export class MinMaxComponent implements OnInit {
       // This will NOT change the color of the "Delta" Node
       console.log("data efefe", this.data_in_diagrame["nodeDataArray"][i].id);
       if (data !== null) this.diagram.model.setDataProperty(data, "color", "white");
-      //change color arc
-      for (let j = 0; j < this.data_in_diagrame["linkDataArray"].length; j++) {
-        this.diagram.model.setDataProperty(this.data.linkDataArray[j], "progress", false);
-      }
+    }
+
+    //change color arc
+    for (let j = 0; j < this.data_in_diagrame["linkDataArray"].length; j++) {
+      this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "black");
+      this.diagram.model.setDataProperty(this.data.linkDataArray[j], "progress", false);
     }
   }
 
@@ -731,16 +747,17 @@ export class MinMaxComponent implements OnInit {
       background: "AntiqueWhite",
       type: "image/jpeg"
     });
-    this.addImage(img); // Adds the image to a DIV below
+    //this.addImage(img); // Adds the image to a DIV below
     console.log(img.src);
 
-    this.imageObject.push({
+    if (this.imageObject.push({
       image: img.src,
       thumbImage: img.src,
       alt: 'alt of image',
-      title: 'minimisation'
-    })
-
+      title: this.algorithme
+    })) {
+      this.toast.showSuccess("Image historisée", "Succès", 1000);
+    }
   }
 
   history() {
@@ -748,13 +765,9 @@ export class MinMaxComponent implements OnInit {
   }
 
   addImage(img) {
-
     let image = document.getElementById('image');
     image.appendChild(img);
-
     // this.ConvertImage.getImage(img);
-
-
   }
 
   // When the blob is complete, make an anchor tag for it and use the tag to initiate a download
@@ -774,11 +787,16 @@ export class MinMaxComponent implements OnInit {
     }
 
     document.body.appendChild(a);
+
+    console.log(a);
+
+
     requestAnimationFrame(function () {
-      a.click();
-      window.URL.revokeObjectURL(url);
+      a.click(); window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     });
+
+
   }
 
   makeBlob() {

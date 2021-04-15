@@ -8,13 +8,19 @@ export class ToastService {
 
   constructor(private toastr: ToastrService) { }
 
-  showSuccess() {
-    this.toastr.success("Hello world!", "Toastr fun!", {
-      timeOut: 1000,
+  showSuccess(message, titre, duration) {
+
+    this.toastr.success(message, titre, {
+      timeOut: duration,
     });
   }
   showError(message, titre, duration) {
-    this.toastr.error(message, titre, {
+    console.log("yo", message);
+    let msg = " Arc ";
+    message.forEach(element => {
+      msg = msg + " from " + element.from * (-1) + " to " + element.to * (-1);
+    });
+    this.toastr.error(msg, titre, {
       timeOut: duration,
     });
   }

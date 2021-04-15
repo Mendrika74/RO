@@ -16,7 +16,7 @@ export class ModalService {
   openDialog(imageObject): void {
     const dialogRef = this.dialog.open(AnnimationComponent, {
       width: '50%',
-      data: { data: imageObject }
+      data: { imageObject }
     });
 
     dialogRef.afterClosed().subscribe(result => {

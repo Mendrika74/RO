@@ -16,6 +16,7 @@ import { AnnimationComponent } from './component/annimation/annimation.component
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgImageSliderModule } from 'ng-image-slider';
+import { MatBadgeModule } from '@angular/material/badge';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { NgImageSliderModule } from 'ng-image-slider';
     MatSidenavModule,
     MatDialogModule,
     MatFormFieldModule,
-    NgImageSliderModule
+    NgImageSliderModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

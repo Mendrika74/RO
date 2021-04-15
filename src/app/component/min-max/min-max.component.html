@@ -48,13 +48,14 @@
                         <mat-icon>save</mat-icon>
                     </button>
                 </button>
-                <button matTooltip="Story" mat-flat-button color="accent" (click)="history()">
-                    <button mat-icon-button aria-label="Example icon button with a menu icon">
-                        <mat-icon>story</mat-icon>
-                    </button>
-                </button>
+
             </div>
         </section>
         <div id="image"></div>
     </div>
 </div>
+
+<button matBadge={{this.imageObject.length}} matBadgePosition="before" matBadgeColor="warn" mat-fab
+    aria-label="Example icon button with a menu icon" color="accent" (click)="history()" id="History">
+    <mat-icon>history</mat-icon>
+</button>
