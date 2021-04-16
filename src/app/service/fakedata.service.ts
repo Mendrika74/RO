@@ -148,6 +148,24 @@ export class FakedataService {
       { text: "x4", loc: "-112 79", id: -4, color: "white" },
       { text: "x5", loc: "-13 16", id: -5, color: "white" },
       { text: "x6", loc: "129 -61", id: -6, color: "white" },*/
+
+      /*{ text: "A", id: -1, loc: "-391 -50" },
+      { text: "B", id: -2, loc: "-310 -111" },
+      { text: "C", id: -3, loc: "-276 -37" },
+      { text: "D", id: -4, loc: "-282 64" },
+      { text: "E", id: -5, loc: "-207 -148" },
+      { text: "F", id: -6, loc: "-154 -37" },
+      { text: "G", id: -7, loc: "-145 73" },
+      { text: "H", id: -8, loc: "-15 69" },
+      { text: "I", id: -9, loc: "-59 -153" },
+      { text: "J", id: -10, loc: "-32 -65" },
+      { text: "K", id: -11, loc: "-30 -7" },
+      { text: "L", id: -12, loc: "72 -148" },
+      { text: "M", id: -13, loc: "76 25" },
+      { text: "N", id: -14, loc: "75 -54" },
+      { text: "O", id: -15, loc: "203 -52" },
+      { text: "P", id: -16, loc: "340 -46" }*/
+
     ],
     "linkDataArray": [
 
@@ -198,6 +216,36 @@ export class FakedataService {
       { from: -4, to: -5, points: Array(8), text: "3" },
       { from: -2, to: -6, points: Array(8), text: "4" },
       { from: -4, to: -6, points: Array(8), text: "4" }, // 3 lalana miverina */
+
+      /*{ from: -1, to: -2, points: Array(8), text: "5" },
+      { from: -1, to: -3, points: Array(8), text: "9" },
+      { from: -1, to: -4, points: Array(8), text: "4" },
+      { from: -3, to: -4, points: Array(8), text: "4" },
+      { from: -2, to: -5, points: Array(8), text: "3" },
+      { from: -2, to: -6, points: Array(8), text: "2" },
+      { from: -3, to: -6, points: Array(8), text: "1" },
+      { from: -4, to: -7, points: Array(8), text: "7" },
+      { from: -6, to: -7, points: Array(8), text: "3" },
+      { from: -5, to: -9, points: Array(8), text: "9" },
+      { from: -5, to: -10, points: Array(8), text: "2" },
+      { from: -5, to: -11, points: Array(8), text: "4" },
+      { from: -6, to: -9, points: Array(8), text: "9" },
+      { from: -6, to: -8, points: Array(8), text: "5" },
+      { from: -7, to: -8, points: Array(8), text: "7" },
+      { from: -8, to: -14, points: Array(8), text: "2" },
+      { from: -9, to: -12, points: Array(8), text: "5" },
+      { from: -9, to: -14, points: Array(8), text: "1" },
+      { from: -10, to: -12, points: Array(8), text: "10" },
+      { from: -11, to: -15, points: Array(8), text: "5" },
+      { from: -7, to: -13, points: Array(8), text: "5" },
+      { from: -13, to: -14, points: Array(8), text: "4" },
+      { from: -12, to: -15, points: Array(8), text: "4" },
+      { from: -12, to: -14, points: Array(8), text: "3" },
+      { from: -14, to: -16, points: Array(8), text: "4" },
+      { from: -15, to: -16, points: Array(8), text: "9" },
+      { from: -13, to: -16, points: Array(8), text: "3" },
+      { from: -9, to: -10, points: Array(8), text: "9" },
+      { from: -10, to: -11, points: Array(8), text: "3" }*/
 
     ]
   }

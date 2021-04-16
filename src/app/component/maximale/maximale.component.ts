@@ -514,7 +514,7 @@ export class MaximaleComponent implements OnInit {
       //console.log(tab);
       nb = this.nbInfToSup();
       this.minFord(tab);
-      this.minFord(tab);
+      //this.minFord(tab);
       for (k = 0; k <= nb; k++) {
         if (nb == 0) {
           this.findPath(tab);

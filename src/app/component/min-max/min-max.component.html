@@ -57,5 +57,7 @@
 
 <button matBadge={{this.imageObject.length}} matBadgePosition="before" matBadgeColor="warn" mat-fab
     aria-label="Example icon button with a menu icon" color="accent" (click)="history()" id="History">
-    <mat-icon>history</mat-icon>
+    <mat-icon *ngIf="visible">{{icon}}</mat-icon>
+    <mat-spinner *ngIf="!visible" [diameter]="35"></mat-spinner>
+
 </button>

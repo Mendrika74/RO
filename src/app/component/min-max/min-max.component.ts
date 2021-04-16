@@ -16,6 +16,9 @@ import { ModalService } from 'src/app/service/modal.service';
 import { MatBadgeModule } from '@angular/material/badge';
 
 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+
 const $ = go.GraphObject.make;
 
 @Component({
@@ -27,9 +30,13 @@ export class MinMaxComponent implements OnInit {
 
   imageObject: Array<object> = [];
 
-  title: string = "FORD BELLMAN";
+  title: string = "CHO - FORD MIN MAX";
+
+  visible: boolean = true;
 
   data: any = [];
+
+  icon: String = "history";
 
 
   diagram: go.Diagram = null;
@@ -37,6 +44,8 @@ export class MinMaxComponent implements OnInit {
   algorithme: String = "FORD";
 
   arc_error: any[] = [];
+
+
 
   @Input()
   model: go.Model;
@@ -349,10 +358,10 @@ export class MinMaxComponent implements OnInit {
         if ((nodeDataArray[i].id * (-1)) > (data.id * (-1))) {
           var data = evt.model.findNodeDataForKey(nodeDataArray[i].id);
           // This will NOT change the color of the "Delta" Node
-          console.log("data", data);
+          // console.log("data", data);
           if (data !== null) evt.model.setDataProperty(data, "id", (nodeDataArray[i].id + 1));
         } else {
-          console.log("Tsy ovaina");
+          //console.log("Tsy ovaina");
         }
 
       }
@@ -365,7 +374,7 @@ export class MinMaxComponent implements OnInit {
     this.data_in_diagrame = JSON.parse(this.diagram.model.toJson());
     console.log("data = ", this.data_in_diagrame);
     var x = this.data_in_diagrame.linkDataArray.length;
-    console.log(x * -1);
+    //console.log(x * -1);
     if (algo == "min") {
       return this.detectInfinityLoopMin();
     } else {
@@ -391,7 +400,7 @@ export class MinMaxComponent implements OnInit {
     for (let i = 1; i < taille; i++) {
       for (let j = 0; j < taille; j++) {
         if (parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || isNaN(parseInt(this.data_in_diagrame.linkDataArray[j].text))) {
-          console.log("%c arc entre form " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to, "background: red;");
+          // console.log("%c arc entre form " + this.data_in_diagrame.linkDataArray[j].from + " to " + this.data_in_diagrame.linkDataArray[j].to, "background: red;");
           this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "red");
           trouve = true;
           this.arc_error.push({ from: this.data_in_diagrame.linkDataArray[j].from, to: this.data_in_diagrame.linkDataArray[j].to });
@@ -419,7 +428,7 @@ export class MinMaxComponent implements OnInit {
     for (let i = 1; i < taille; i++) {
       for (let j = 0; j < taille; j++) {
         if ((to == this.data_in_diagrame.linkDataArray[j].from && from == this.data_in_diagrame.linkDataArray[j].to) || parseInt(this.data_in_diagrame.linkDataArray[j].text) <= 0 || isNaN(parseInt(this.data_in_diagrame.linkDataArray[j].text))) {
-          console.log("%c indice : " + j + "  from " + this.data_in_diagrame.linkDataArray[j].from + " to : " + this.data_in_diagrame.linkDataArray[j].to, "background: green;");
+          //console.log("%c indice : " + j + "  from " + this.data_in_diagrame.linkDataArray[j].from + " to : " + this.data_in_diagrame.linkDataArray[j].to, "background: green;");
           // this.diagram.model. (this.data_in_diagrame.linkDataArray[j]);
           this.diagram.model.setDataProperty(this.data.linkDataArray[j], "color", "red");
           this.arc_error.push({ from: this.data_in_diagrame.linkDataArray[j].from, to: this.data_in_diagrame.linkDataArray[j].to });
@@ -499,6 +508,8 @@ export class MinMaxComponent implements OnInit {
 
   //algorithm of Ford Min
   minFord(tab) {
+    console.log("tab = ", tab);
+
     let current: number = 0;
     let compte: number = 0;
     let next: number;
@@ -509,7 +520,9 @@ export class MinMaxComponent implements OnInit {
     // console.log("lengy = ", tab.length);
     while (compte < tab.length - 1) {
       if (demitour) {
+        demitour = false;
         current = pos_i;
+        //console.log('%c current ' + current, "color:yellow;");
       } else {
         pos_i = tab[current].getPosi();
       }
@@ -523,35 +536,44 @@ export class MinMaxComponent implements OnInit {
           if (sub > parseInt(tab[current].getArc()[sous_cp])) {
             res = tab[current].getLambda() + parseInt(tab[current].getArc()[sous_cp]);
             tab[pos_j].setLambda(res);
-            // console.log("Sub_after = ", tab[pos_i].getLambda());
+            //console.log("Sub_after = ", tab[pos_i].getLambda());
             // console.log("*******************IF****************");
             // console.log("I : " + pos_i);
             // console.log("J  : " + pos_j);
             // console.log("Lamda " + pos_j + " = " + tab[current].getLambda() + " + " + tab[current].getArc()[sous_cp] + " = " + res);
-            demitour = false;
+            // console.log(sub + " > " + tab[current].getArc()[sous_cp]);
           }
         }
         else {
-          if (sub <= parseInt(tab[current].getArc()[sous_cp])) {
+          if (sub <= parseInt(tab[current].getArc()[sous_cp]) || sub == 0 || sub < 0) {
             // console.log("****************NOTHING*******************");
-            demitour = false;
-          } else {
-            res = tab[current].getLambda() + parseInt(tab[current].getArc()[sous_cp]);
-            tab[pos_j].setLambda(res);
-            pos_i = pos_j;
-            demitour = true;
-            // console.log("*************ELSE**********************");
             // console.log("I : " + pos_i);
             // console.log("J  : " + pos_j);
-            // console.log(tab[current].getLambda() + " + " + tab[current].getArc()[sous_cp] + " = " + res);
+            // console.log(sub + " > " + tab[current].getArc()[sous_cp]);
+
+            //console.log("%c elseif tsis raha " + compte, "color: red;");
+          }
+          else {
+            res = tab[current].getLambda() + parseInt(tab[current].getArc()[sous_cp]);
+            tab[pos_j].setLambda(res);
+            // console.log("*************ELSE DEMI TOUR **********************");
+            // console.log("I : " + pos_i);
+            // console.log("J  : " + pos_j);
+            // console.log(sub + " > " + tab[current].getArc()[sous_cp]);
+            pos_i = pos_j;
+            demitour = true;
+            //console.log(" verss ---> : " + pos_j);
             compte = pos_i - 1;
             break;
           }
         }
       }
+      //console.log("%c compte " + compte, "color: red;");
       compte++;
       current++;
+
     }
+
     this.putLamda(tab);
   }
 
@@ -562,7 +584,7 @@ export class MinMaxComponent implements OnInit {
 
       var data = this.diagram.model.findNodeDataForKey("" + (i + 1) * (-1));
       // This will NOT change the color of the "Delta" Node
-      console.log("data", data);
+      // console.log("data", data);
       if (data !== null) this.diagram.model.setDataProperty(data, "texte", 'λ ' + (i + 1) + ' = ' + tab[i].lambda);
     }
   }
@@ -591,7 +613,7 @@ export class MinMaxComponent implements OnInit {
             sommet = new Sommet(Infinity, i);
           }
         }
-        console.log(sommet);
+        //console.log(sommet);
         for (let j = 0; j < taillelink; j++) {
           if ((this.data_in_diagrame.nodeDataArray[i].id * (-1)) == (this.data_in_diagrame.linkDataArray[j].from * (-1))) {
             // console.log("To= ", (this.data_in_diagrame.linkDataArray[j].to * (-1)) - 2);     
@@ -607,9 +629,11 @@ export class MinMaxComponent implements OnInit {
       nb = this.nbInfToSup();
       if (algo == "max") {
         this.maxFord(tab);
+        this.algorithme = "MAXIMISATION";
         this.toast.showSuccess("MAXIMISATION", "Algorithme", 5000);
       } else {
         this.minFord(tab);
+        this.algorithme = "MINIMISATION";
         this.toast.showSuccess("MINIMISATION", "Algorithme", 5000);
       }
 
@@ -633,7 +657,7 @@ export class MinMaxComponent implements OnInit {
     for (let i = 0; i < this.data_in_diagrame["nodeDataArray"].length; i++) {
       var data = this.diagram.model.findNodeDataForKey("" + this.data_in_diagrame["nodeDataArray"][i].id);
       // This will NOT change the color of the "Delta" Node
-      console.log("data efefe", this.data_in_diagrame["nodeDataArray"][i].id);
+      //console.log("data efefe", this.data_in_diagrame["nodeDataArray"][i].id);
       if (data !== null) this.diagram.model.setDataProperty(data, "color", "white");
     }
 
@@ -696,7 +720,7 @@ export class MinMaxComponent implements OnInit {
 
   // color the exact path and sommets
   coloriage(lalana_miverina) {
-    console.log(lalana_miverina);
+    //console.log(lalana_miverina);
     for (let i = 0; i < lalana_miverina.length; i++) {
 
       var data = this.diagram.model.findNodeDataForKey("" + lalana_miverina[i].to * (-1));
@@ -726,10 +750,10 @@ export class MinMaxComponent implements OnInit {
 
 
   retour = function () {  // define a function named "incrementData" callable by onclick
-    console.log("Kez");
+    //console.log("Kez");
 
     var model = this.diagram.model;
-    console.log(model);
+    //console.log(model);
 
     model.startTransaction("increment");  // all model changes should happen in a transaction
     var data = model.nodeDataArray[0];  // get the first node data
@@ -738,6 +762,7 @@ export class MinMaxComponent implements OnInit {
   };
 
   Save_image() {
+    this.visible = false;
     var d = this.diagram.documentBounds;
     var halfWidth = d.width / 2;
     var halfHeight = d.height / 2;
@@ -756,8 +781,13 @@ export class MinMaxComponent implements OnInit {
       alt: 'alt of image',
       title: this.algorithme
     })) {
-      this.toast.showSuccess("Image historisée", "Succès", 1000);
+      setTimeout(() => {
+        this.visible = true;
+        this.toast.showSuccess("Image historisée", "Succès", 1000);
+      }, 2000)
+
     }
+
   }
 
   history() {
@@ -788,7 +818,7 @@ export class MinMaxComponent implements OnInit {
 
     document.body.appendChild(a);
 
-    console.log(a);
+    //console.log(a);
 
 
     requestAnimationFrame(function () {
@@ -801,7 +831,10 @@ export class MinMaxComponent implements OnInit {
 
   makeBlob() {
     var blob = this.diagram.makeImageData({ background: "white", returnType: "blob", callback: this.myCallback });
+  }
 
+  public changeIcon(newIcon: string) {
+    this.icon = newIcon;
   }
 
 
