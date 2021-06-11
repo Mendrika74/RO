@@ -459,6 +459,7 @@ export class MinMaxComponent implements OnInit {
     let demitour: boolean = false;
     while (compte < tab.length - 1) {
       if (demitour) {
+        demitour = false;
         current = pos_i;
       } else {
         pos_i = tab[current].getPosi();
@@ -475,20 +476,17 @@ export class MinMaxComponent implements OnInit {
             // console.log("*******************IF****************");
             // console.log("I : " + pos_i);
             // console.log("J  : " + pos_j);
-            // console.log(tab[current].getLambda() + " + " + tab[current].getArc()[sous_cp] + " = " + res);
-            demitour = false;
+            // console.log(tab[current].getLambda() + " + " + tab[current].getArc()[sous_cp] + " = " + res);            
           }
         }
         else {
           if (sub > parseInt(tab[current].getArc()[sous_cp]) || sub == parseInt(tab[current].getArc()[sous_cp])) {
-            // console.log("****************NOTHING*******************");
-            demitour = false;
+            // console.log("****************NOTHING*******************");            
           } else {
             res = tab[current].getLambda() + parseInt(tab[current].getArc()[sous_cp]);
             tab[pos_j].setLambda(res);
             pos_i = pos_j;
             demitour = true;
-
             // console.log("*************ELSE**********************");
             // console.log("I : " + pos_i);
             // console.log("J  : " + pos_j);
